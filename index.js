@@ -8,7 +8,7 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState } = require('botbuilder');
 
-const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
+const { BotSES } = require('./bots/botSES');
 const { MainDialog } = require('./dialogs/mainDialog');
 
 // Read environment variables from .env file
@@ -40,7 +40,7 @@ const conversationState = new ConversationState(memoryStorage);
 
 // Create the main dialog.
 const dialog = new MainDialog(userState);
-const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
+const botSES = new BotSES(conversationState, userState, dialog);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -68,6 +68,6 @@ adapter.onTurnError = async (context, error) => {
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await bot.run(context);
+        await botSES.run(context);
     });
 });
