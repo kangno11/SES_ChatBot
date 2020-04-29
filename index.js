@@ -9,7 +9,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState } = require('botbuilder');
 
 const { BotSES } = require('./bots/botSES');
-const { MainDialog } = require('./dialogs/mainDialog');
+const { DialogRoot } = require('./dialogs/dialogRoot');
 
 // Read environment variables from .env file
 const ENV_FILE = path.join(__dirname, '.env');
@@ -39,8 +39,8 @@ const userState = new UserState(memoryStorage);
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the main dialog.
-const dialog = new MainDialog(userState);
-const botSES = new BotSES(conversationState, userState, dialog);
+const dialogRoot = new DialogRoot(userState);
+const botSES = new BotSES(conversationState, userState, dialogRoot);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {

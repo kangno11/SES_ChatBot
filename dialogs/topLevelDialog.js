@@ -3,7 +3,7 @@
 
 const { ComponentDialog, NumberPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { ReviewSelectionDialog, REVIEW_SELECTION_DIALOG } = require('./reviewSelectionDialog');
-const { UserProfile } = require('../userProfile');
+const { UserProfile } = require('../class/userProfile');
 
 const TOP_LEVEL_DIALOG = 'TOP_LEVEL_DIALOG';
 

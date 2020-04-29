@@ -1,26 +1,30 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog,
+    ChoicePrompt,ChoiceFactory} = require('botbuilder-dialogs');
 const { TopLevelDialog, TOP_LEVEL_DIALOG } = require('./topLevelDialog');
 
-const MAIN_DIALOG = 'MAIN_DIALOG';
-const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
-const USER_PROFILE_PROPERTY = 'USER_PROFILE_PROPERTY';
+const DIALOG_ROOT = 'DIALOG_ROOT';
+const DIALOG_ROOT_WATERFALL = 'DIALOG_ROOT_WATERFALL';
+const PROMPT_ROOT_CHOICE_LANGUAGE = 'PROMPT_ROOT_CHOICE_LANGUAGE';
 
-class MainDialog extends ComponentDialog {
+class DialogRoot extends ComponentDialog {
     constructor(userState) {
-        super(MAIN_DIALOG);//确定ID,componentDialog
+        super(DIALOG_ROOT);
         this.userState = userState;
-        this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
+        this.userProfileAccessor = userState.createProperty("UserProfileAccessor");
 
-        this.addDialog(new TopLevelDialog());
-        this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
-            this.initialStep.bind(this),
-            this.finalStep.bind(this)
+        //this.addDialog(new TopLevelDialog());
+        this.addDialog(new ChoicePrompt(PROMPT_ROOT_CHOICE_LANGUAGE));
+        this.addDialog(new WaterfallDialog(DIALOG_ROOT_WATERFALL, [
+            this.languageStep.bind(this)
+            //this.initialStep.bind(this),
+            //this.finalStep.bind(this)
+            
         ]));
 
-        this.initialDialogId = WATERFALL_DIALOG;
+        this.initialDialogId = DIALOG_ROOT_WATERFALL;
     }
 
     /**
@@ -40,6 +44,12 @@ class MainDialog extends ComponentDialog {
         }
     }
 
+    async languageStep(stepContext){
+        return await stepContext.prompt(PROMPT_ROOT_CHOICE_LANGUAGE, {
+            prompt: 'Please enter your preferred language.',
+            choices: ChoiceFactory.toChoices(['English', '中文'])
+        });
+    }
     async initialStep(stepContext) {
         return await stepContext.beginDialog(TOP_LEVEL_DIALOG);
     }
@@ -55,5 +65,5 @@ class MainDialog extends ComponentDialog {
     }
 }
 
-module.exports.MainDialog = MainDialog;
-module.exports.MAIN_DIALOG = MAIN_DIALOG;
+module.exports.DialogRoot = DialogRoot;
+module.exports.DIALOG_ROOT = DIALOG_ROOT;

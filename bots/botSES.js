@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
+const Hint = require('../resources/hint.json');
 
 class BotSES extends ActivityHandler {
     /**
@@ -19,13 +20,13 @@ class BotSES extends ActivityHandler {
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialog = dialog;
-        this.dialogState = this.conversationState.createProperty('DialogState');
+        this.conversationDialogAccessor = this.conversationState.createProperty('ConversationDialogAccessor');
 
         this.onMessage(async (context, next) => {
             console.log('Running dialog with Message Activity.');
 
             // Run the Dialog with the new message Activity.
-            await this.dialog.run(context, this.dialogState);
+            await this.dialog.run(context, this.conversationDialogAccessor);
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
@@ -34,8 +35,9 @@ class BotSES extends ActivityHandler {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    const reply = `Welcome to Complex Dialog Bot ${ membersAdded[cnt].name }. This bot provides a complex convesation, with multiple dialogs. Type anything to get started.`;
-                    await context.sendActivity(reply);
+
+                    await context.sendActivity(`Hello ${ membersAdded[cnt].name }.`+ Hint.welcome.en);
+                    await context.sendActivity(`你好 ${ membersAdded[cnt].name }。`+ Hint.welcome.cn);
                 }
             }
 
