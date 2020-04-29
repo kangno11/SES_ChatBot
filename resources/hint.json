@@ -1,7 +1,37 @@
 {
+    "template":
+    {
+        "en":"",
+        "cn":""
+    },
     "welcome":
     {
         "en":"I'm SES ChatBot. Please try type 'hi' to start the conversation.",
         "cn":"我是SES人工聊天机器人。请尝试着和我说 “hi”来开始我们的聊天吧！"
+    },
+    "goodbye":
+    {
+        "en":"This converstaion ends, wish you good work! GoodBye！",
+        "cn":"本次对话结束,祝您工作顺利！再见！"
+    },
+    "promptLanguage":
+    {
+        "en":"Please enter your preferred language.",
+        "cn":"请选择工作语言。"
+    },
+    "promptMainMenu":
+    {
+        "en":"Please select the main menu.",
+        "cn":"请选择主菜单。"
+    },
+    "promptSubMenu":
+    {
+        "en":"Please select the sub menu.",
+        "cn":"请选择二级子菜单。"
+    },
+    "messageUnderConstruction":
+    {
+        "en":"This fucntion is under construction.",
+        "cn":"这项功能正在开发中。"
     }
 }

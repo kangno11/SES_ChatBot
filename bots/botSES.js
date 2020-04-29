@@ -20,7 +20,7 @@ class BotSES extends ActivityHandler {
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialog = dialog;
-        this.conversationDialogAccessor = this.conversationState.createProperty('ConversationDialogAccessor');
+        this.conversationDialogAccessor = this.conversationState.createProperty('ConversationDialog');
 
         this.onMessage(async (context, next) => {
             console.log('Running dialog with Message Activity.');
@@ -35,7 +35,7 @@ class BotSES extends ActivityHandler {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-
+                    
                     await context.sendActivity(`Hello ${ membersAdded[cnt].name }.`+ Hint.welcome.en);
                     await context.sendActivity(`你好 ${ membersAdded[cnt].name }。`+ Hint.welcome.cn);
                 }

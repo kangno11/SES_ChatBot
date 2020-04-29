@@ -1,0 +1,21 @@
+{
+    "mainMenu":
+    {
+        "en":["Contact","Project                                                       "],
+        "cn":["联系人查询","项目查询                                                     "]
+    },
+
+    "subMenu1":
+    {
+        "en":["Tender &VO Business","Order Business","Special Process Contact                                              "],
+        "cn":["Tender&VO业务客服联系人","排产业务客服联系人","特殊流程联系人                                                    "]        
+    },
+    "subMenu2":
+    {
+        "en":["(TBD)                                                    "],
+        "cn":["(TBD)                                                    "]        
+    }
+
+}
+
+
