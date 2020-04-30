@@ -29,9 +29,40 @@
         "en":"Please select the sub menu.",
         "cn":"请选择二级子菜单。"
     },
+    "promptQueryMode":
+    {
+        "en":"Please select query mode.",
+        "cn":"请选择查询模式。"
+    },
+    "promptKeyWord":
+    {
+        "en":"Please input key word.",
+        "cn":"请输入查询关键字。"
+    },
+    "promptFeedback":
+    {
+        "en":"Could you please confirm if the query result meet your expectaction",
+        "cn":"请确认查询结果是否满足您的期望"
+    },
+
+    "retryChoice": 
+    {
+        "en":"Please input number or click option button to make a selection!",
+        "cn":"请输入选项编号或点击选项按钮完成选择。"
+    },
     "messageUnderConstruction":
     {
         "en":"This fucntion is under construction.",
         "cn":"这项功能正在开发中。"
+    },
+    "messageGoodFeedback":
+    {
+        "en":"Great!",
+        "cn":"很高兴能帮到您！"
+    },
+    "messageBadFeedback":
+    {
+        "en":"Sorry! ",
+        "cn":"很遗憾暂时没能帮到您！"
     }
 }

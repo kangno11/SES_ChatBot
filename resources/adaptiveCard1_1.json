@@ -1,0 +1,104 @@
+{
+    "en": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "version": "1.0",
+        "type": "AdaptiveCard",
+        "speak": "Your flight is confirmed for you and 3 other passengers from San Francisco to Amsterdam on Friday, October 10 8:30 AM",
+        "body": [
+            {
+                "type": "TextBlock",
+                "text": "SS Engineer:",
+                "weight": "bolder",
+                "isSubtle": false
+            },
+            {
+                "type": "TextBlock",
+                "text": "Qian Chen Cheng",
+                "separator": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "55003843",
+                "spacing": "none"
+              },
+              {
+                "type": "TextBlock",
+                "text": "chencheng.qian@kone.com",
+                "spacing": "none"
+              },
+              {
+                "type": "TextBlock",
+                "text": "Backup：",
+                "weight": "bolder",
+                "isSubtle": false
+            },
+            {
+                "type": "TextBlock",
+                "text": "Cai Min",
+                "separator": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "57736491",
+                "spacing": "none"
+              },
+              {
+                "type": "TextBlock",
+                "text": "min.cai2@kone.com",
+                "spacing": "none"
+              }
+
+        ]
+
+    },
+    "cn": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "version": "1.0",
+        "type": "AdaptiveCard",
+        "speak": "Your flight is confirmed for you and 3 other passengers from San Francisco to Amsterdam on Friday, October 10 8:30 AM",
+        "body": [
+            {
+                "type": "TextBlock",
+                "text": "SS 工程师:",
+                "weight": "bolder",
+                "isSubtle": false
+            },
+            {
+                "type": "TextBlock",
+                "text": "Qian Chen Cheng",
+                "separator": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "55003843",
+                "spacing": "none"
+              },
+              {
+                "type": "TextBlock",
+                "text": "chencheng.qian@kone.com",
+                "spacing": "none"
+              },
+              {
+                "type": "TextBlock",
+                "text": "备选工程师：",
+                "weight": "bolder",
+                "isSubtle": false
+            },
+            {
+                "type": "TextBlock",
+                "text": "Cai Min",
+                "separator": true
+              },
+              {
+                "type": "TextBlock",
+                "text": "57736491",
+                "spacing": "none"
+              },
+              {
+                "type": "TextBlock",
+                "text": "min.cai2@kone.com",
+                "spacing": "none"
+              }
+        ]
+    }
+}

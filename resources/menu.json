@@ -14,7 +14,19 @@
     {
         "en":["(TBD)                                                    "],
         "cn":["(TBD)                                                    "]        
+    },
+    "feedbackMenu":
+    {
+        "en":["yes","no"],
+        "cn":["是","否"]  
+    },
+    "queryMode1_1": 
+    {
+        "en":["By Region","By Branch Name","By Branch Code"],
+        "cn":["按区域","按分公司名称","按分公司代码"]        
     }
+
+
 
 }
 

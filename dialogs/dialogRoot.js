@@ -3,16 +3,16 @@
 
 const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog,
     ChoicePrompt, ChoiceFactory } = require('botbuilder-dialogs');
-const { TopLevelDialog, TOP_LEVEL_DIALOG } = require('./topLevelDialog');
+const { DialogContactTenderVO, DIALOG_CONTACT_TENDERVO } = require('./dialogContactTenderVO');
 const { UserProfile } = require('../class/userProfile');
 const Hint = require('../resources/hint.json');
 const Menu = require('../resources/menu.json');
 
 const DIALOG_ROOT = 'DIALOG_ROOT';
-const DIALOG_ROOT_WATERFALL = 'DIALOG_ROOT_WATERFALL';
-const PROMPT_ROOT_CHOICE_LANGUAGE = 'PROMPT_ROOT_CHOICE_LANGUAGE';
-const PROMPT_ROOT_CHOICE_MAINMENU = 'PROMPT_ROOT_CHOICE_MAINMENU';
-const PROMPT_ROOT_CHOICE_SUBMENU = 'PROMPT_ROOT_CHOICE_SUBMENU';
+const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
+const PROMPT_CHOICE_LANGUAGE = 'PROMPT_CHOICE_LANGUAGE';
+const PROMPT_CHOICE_MAINMENU = 'PROMPT_CHOICE_MAINMENU';
+const PROMPT_CHOICE_SUBMENU = 'PROMPT_CHOICE_SUBMENU';
 
 class DialogRoot extends ComponentDialog {
     constructor(userState) {
@@ -23,10 +23,11 @@ class DialogRoot extends ComponentDialog {
 
 
         //this.addDialog(new TopLevelDialog());//this.userProfile一定要传入
-        this.addDialog(new ChoicePrompt(PROMPT_ROOT_CHOICE_LANGUAGE));
-        this.addDialog(new ChoicePrompt(PROMPT_ROOT_CHOICE_MAINMENU));
-        this.addDialog(new ChoicePrompt(PROMPT_ROOT_CHOICE_SUBMENU));
-        this.addDialog(new WaterfallDialog(DIALOG_ROOT_WATERFALL, [
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_LANGUAGE));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_MAINMENU));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_SUBMENU));
+        this.addDialog(new DialogContactTenderVO());
+        this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.languageStep.bind(this),
             this.mainMenuStep.bind(this),
             this.subMenuStep.bind(this),
@@ -35,7 +36,7 @@ class DialogRoot extends ComponentDialog {
 
         ]));
 
-        this.initialDialogId = DIALOG_ROOT_WATERFALL;
+        this.initialDialogId = DIALOG_WATERFALL;
     }
 
     /**
@@ -59,7 +60,7 @@ class DialogRoot extends ComponentDialog {
     async languageStep(stepContext) {
         if (this.userProfile.language === "") {
             this.userProfile.save_language = true;
-            return await stepContext.prompt(PROMPT_ROOT_CHOICE_LANGUAGE, {
+            return await stepContext.prompt(PROMPT_CHOICE_LANGUAGE, {
                 prompt: Hint.promptLanguage.en + Hint.promptLanguage.cn,
                 choices: ChoiceFactory.toChoices(['English', '中文'])
             });
@@ -82,10 +83,11 @@ class DialogRoot extends ComponentDialog {
         }
 
 
+       
 
-
-        return await stepContext.prompt(PROMPT_ROOT_CHOICE_MAINMENU, {
+        return await stepContext.prompt(PROMPT_CHOICE_MAINMENU, {
             prompt: Hint.promptMainMenu[this.userProfile.language],
+            retryPrompt:Hint.retryChoice[this.userProfile.language],
             choices: Menu.mainMenu[this.userProfile.language]
         });
     }
@@ -94,13 +96,15 @@ class DialogRoot extends ComponentDialog {
         stepContext.values.mainMenu = stepContext.result.index;
         switch (stepContext.values.mainMenu) {
             case 0: //Contact
-                return await stepContext.prompt(PROMPT_ROOT_CHOICE_SUBMENU, {
+                return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
                     prompt: Hint.promptSubMenu[this.userProfile.language],
+                    retryPrompt:Hint.retryChoice[this.userProfile.language],
                     choices: Menu.subMenu1[this.userProfile.language]
                 });
             case 1: //Project
-                return await stepContext.prompt(PROMPT_ROOT_CHOICE_SUBMENU, {
+                return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
                     prompt: Hint.promptSubMenu[this.userProfile.language],
+                    retryPrompt:Hint.retryChoice[this.userProfile.language],
                     choices: Menu.subMenu2[this.userProfile.language]
                 });
             default:
@@ -108,7 +112,7 @@ class DialogRoot extends ComponentDialog {
                 return await stepContext.next();
         }
 
-        //return await stepContext.beginDialog(TOP_LEVEL_DIALOG);
+       
     }
 
     async routeStep(stepContext) {
@@ -117,8 +121,7 @@ class DialogRoot extends ComponentDialog {
             case 0: //Contact
                 switch (stepContext.values.subMenu) {
                     case 0://Tender &VO Business
-                        await stepContext.context.sendActivity("will route");
-                        return await stepContext.next();
+                    return await stepContext.beginDialog(DIALOG_CONTACT_TENDERVO);
                     case 1://Order Business
                         break;
                     case 2://Special Process Contact
@@ -132,7 +135,14 @@ class DialogRoot extends ComponentDialog {
 
     }
     async finalStep(stepContext) {
-
+        if(stepContext.result)
+        {
+            await stepContext.context.sendActivity(Hint.messageGoodFeedback[this.userProfile.language]);
+        }
+        else{
+            await stepContext.context.sendActivity(Hint.messageBadFeedback[this.userProfile.language]);
+        }
+        
         await stepContext.context.sendActivity(Hint.goodbye[this.userProfile.language]);
         return await stepContext.endDialog();
 
