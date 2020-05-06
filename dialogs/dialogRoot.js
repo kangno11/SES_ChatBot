@@ -82,7 +82,6 @@ class DialogRoot extends ComponentDialog {
             }
         }
 
-
        
 
         return await stepContext.prompt(PROMPT_CHOICE_MAINMENU, {
@@ -121,7 +120,7 @@ class DialogRoot extends ComponentDialog {
             case 0: //Contact
                 switch (stepContext.values.subMenu) {
                     case 0://Tender &VO Business
-                    return await stepContext.beginDialog(DIALOG_CONTACT_TENDERVO);
+                    return await stepContext.beginDialog(DIALOG_CONTACT_TENDERVO,this.userProfile.language);
                     case 1://Order Business
                         break;
                     case 2://Special Process Contact
@@ -135,7 +134,7 @@ class DialogRoot extends ComponentDialog {
 
     }
     async finalStep(stepContext) {
-        if(stepContext.result)
+        if(stepContext.result.index===0)
         {
             await stepContext.context.sendActivity(Hint.messageGoodFeedback[this.userProfile.language]);
         }

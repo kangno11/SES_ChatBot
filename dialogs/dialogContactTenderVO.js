@@ -13,18 +13,18 @@ const DIALOG_CONTACT_TENDERVO = 'DIALOG_CONTACT_TENDERVO';
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_QUERYMODE = 'PROMPT_CHOICE_QUERYMODE';
 const PROMPT_TEXT_KEYWORD = 'PROMPT_TEXT_KEYWORD';
-const PROMPT_CONFIRM_FEEDBACK = "PROMPT_CONFIRM_FEEDBACK";
+const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
 class DialogContactTenderVO extends ComponentDialog {
     constructor() {
         super(DIALOG_CONTACT_TENDERVO);
-        this.language = "en";
+   
 
         //this.addDialog(new NumberPrompt(NUMBER_PROMPT));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYMODE));
         this.addDialog(new TextPrompt(PROMPT_TEXT_KEYWORD));
-        this.addDialog(new ConfirmPrompt(PROMPT_CONFIRM_FEEDBACK));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryModeStep.bind(this),
             this.keyWordStep.bind(this),
@@ -36,9 +36,9 @@ class DialogContactTenderVO extends ComponentDialog {
     }
     async queryModeStep(stepContext) {
         return await stepContext.prompt(PROMPT_CHOICE_QUERYMODE, {
-            prompt: Hint.promptQueryMode[this.language],
-            retryPrompt: Hint.retryChoice[this.language],
-            choices: Menu.queryMode1_1[this.language]
+            prompt: Hint.promptQueryMode[stepContext.options],
+            retryPrompt: Hint.retryChoice[stepContext.options],
+            choices: Menu.queryMode1_1[stepContext.options]
             //choices: ["1","2"]
         });
     }
@@ -49,20 +49,23 @@ class DialogContactTenderVO extends ComponentDialog {
 
         // Ask the user to enter their age.
         return await stepContext.prompt(PROMPT_TEXT_KEYWORD, {
-            prompt: Hint.promptKeyWord[this.language]
+            prompt: Hint.promptKeyWord[stepContext.options]
         });
     }
     async queryDBStep(stepContext) {
         await stepContext.context.sendActivity(
             {
-                attachments: [CardFactory.adaptiveCard(AdaptiveCard1_1[this.language])]
+                attachments: [CardFactory.adaptiveCard(AdaptiveCard1_1[stepContext.options])]
             });
-            return await stepContext.prompt(PROMPT_CONFIRM_FEEDBACK,
-                 Hint.promptFeedback[this.language], 
-                 Menu.feedbackMenu[this.language]);
+            return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+                {
+                 prompt:  Hint.promptFeedback[stepContext.options], 
+                 choices: Menu.feedbackMenu[stepContext.options]
+                }
+                 );
     }
     async finalStep(stepContext){
-        console.log(stepContext.result);
+        //console.log(stepContext.result);
         return await stepContext.endDialog(stepContext.result);
 
     }

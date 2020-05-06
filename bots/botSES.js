@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler } = require('botbuilder');
+const { ActivityHandler,TeamsActivityHandler } = require('botbuilder');
 const Hint = require('../resources/hint.json');
 
-class BotSES extends ActivityHandler {
+//class BotSES extends ActivityHandler {
+class BotSES extends TeamsActivityHandler {
     /**
      *
      * @param {ConversationState} conversationState
