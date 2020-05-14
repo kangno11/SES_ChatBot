@@ -1,8 +1,5 @@
 const ngrok = require('ngrok');
-const config = require('./gulp.config');
 const log = require('fancy-log');
-const fs = require('fs');
-const path = require('path');
 const nodemon = require('nodemon');
 
 // Gulp Base
@@ -25,7 +22,7 @@ const isDev = process.env.NODE_ENV === 'dev';
 
 
 
-task('start-ngrok', (cb) => {
+task('ngrok', (cb) => {
     log("[NGROK] starting ngrok...");
     let conf = {
         subdomain: process.env.NGROK_SUBDOMAIN,
@@ -69,5 +66,3 @@ task('nodemon', (callback) => {
         }
     });
 });
-
-task('ngrok', series('start-ngrok',  'nodemon'));

@@ -16,7 +16,7 @@
     },
     "promptLanguage":
     {
-        "en":"Please enter your preferred language.",
+        "en":"Please select your preferred language.",
         "cn":"请选择工作语言。"
     },
     "promptMainMenu":

@@ -24,7 +24,7 @@ class BotSES extends TeamsActivityHandler {
         this.conversationDialogAccessor = this.conversationState.createProperty('ConversationDialog');
 
         this.onMessage(async (context, next) => {
-            console.log('Running dialog with Message Activity.');
+            console.log(Date().toString()+ '/'+context.activity.from.name + '/' + context.activity.type + '/' + context.activity.text   );
 
             // Run the Dialog with the new message Activity.
             await this.dialog.run(context, this.conversationDialogAccessor);
