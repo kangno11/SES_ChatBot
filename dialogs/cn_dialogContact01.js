@@ -15,7 +15,7 @@ const Hint = require('../resources/cn_hint.json');
 const Menu = require('../resources/cn_menu.json');
 const CN_AdaptiveCard1_1 = require('../resources/cn_adaptiveCard1_1.json');
 
-const CN_DIALOG_CONTACT01 = 'CN_DIALOG_CONTACT01';
+const CN_DIALOG_CONTACT01 = 'CN_DIALOG_CONTACT01';//Tender&VO业务客服联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_QUERYMODE = 'PROMPT_CHOICE_QUERYMODE';
 const PROMPT_TEXT_KEYWORD = 'PROMPT_TEXT_KEYWORD';
