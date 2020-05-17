@@ -1,34 +1,42 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog,
-    ChoicePrompt, ChoiceFactory } = require('botbuilder-dialogs');
-const { DialogContactTenderVO, DIALOG_CONTACT_TENDERVO } = require('./dialogContactTenderVO');
-const { UserProfile } = require('../class/userProfile');
-const Hint = require('../resources/hint.json');
-const Menu = require('../resources/menu.json');
+const {
+    ComponentDialog,
+    DialogSet,
+    DialogTurnStatus,
+    WaterfallDialog,
+    ChoicePrompt,
+    ChoiceFactory
+} = require('botbuilder-dialogs');
 
-const DIALOG_ROOT = 'DIALOG_ROOT';
+const { CN_DialogContact01,
+    CN_DIALOG_CONTACT01 } = require('./cn_dialogContact01');
+const { CN_UserProfile } = require('../class/cn_userProfile');
+const Hint = require('../resources/cn_hint.json');
+const Menu = require('../resources/cn_menu.json');
+
+const CN_DIALOG_ROOT = 'CN_DIALOG_ROOT';
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_LANGUAGE = 'PROMPT_CHOICE_LANGUAGE';
 const PROMPT_CHOICE_MAINMENU = 'PROMPT_CHOICE_MAINMENU';
 const PROMPT_CHOICE_SUBMENU = 'PROMPT_CHOICE_SUBMENU';
 
-class DialogRoot extends ComponentDialog {
+class CN_DialogRoot extends ComponentDialog {
     constructor(userState) {
-        super(DIALOG_ROOT);
+        super(CN_DIALOG_ROOT);
         this.userState = userState;
         this.userProfileAccessor = userState.createProperty("UserProfile");
         this.userProfile = {}; //传入每一个二级dialog
 
 
-        //this.addDialog(new TopLevelDialog());//this.userProfile一定要传入
-        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_LANGUAGE));
+
+        //this.addDialog(new ChoicePrompt(PROMPT_CHOICE_LANGUAGE));//中英文bot分开开发
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_MAINMENU));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_SUBMENU));
-        this.addDialog(new DialogContactTenderVO());
+        this.addDialog(new CN_DialogContact01());
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
-            this.languageStep.bind(this),
+            //this.languageStep.bind(this),
             this.mainMenuStep.bind(this),
             this.subMenuStep.bind(this),
             this.routeStep.bind(this),
@@ -46,7 +54,7 @@ class DialogRoot extends ComponentDialog {
      * @param {*} accessor
      */
     async run(turnContext, accessor) {
-        this.userProfile = await this.userProfileAccessor.get(turnContext, new UserProfile());
+        this.userProfile = await this.userProfileAccessor.get(turnContext, new CN_UserProfile());
         const dialogSet = new DialogSet(accessor);
         dialogSet.add(this);
 
@@ -57,6 +65,7 @@ class DialogRoot extends ComponentDialog {
         }
     }
 
+    /*
     async languageStep(stepContext) {
         if (this.userProfile.language === "") {
             this.userProfile.save_language = true;
@@ -71,8 +80,10 @@ class DialogRoot extends ComponentDialog {
             return await stepContext.next();
         }
     }
-    async mainMenuStep(stepContext) {
+    */
 
+    async mainMenuStep(stepContext) {
+        /*
         if (this.userProfile.save_language) {
             if (stepContext.result.value === "English") {
                 this.userProfile.language = "en";
@@ -81,78 +92,88 @@ class DialogRoot extends ComponentDialog {
                 this.userProfile.language = "cn";
             }
         }
-
-       
-
+        */
         return await stepContext.prompt(PROMPT_CHOICE_MAINMENU, {
-            prompt: Hint.promptMainMenu[this.userProfile.language],
-            retryPrompt:Hint.retryChoice[this.userProfile.language],
-            choices: Menu.mainMenu[this.userProfile.language]
+            prompt: Hint.promptMainMenu,
+            retryPrompt: Hint.retryChoice,
+            choices: Menu.mainMenu
         });
     }
 
     async subMenuStep(stepContext) {
         stepContext.values.mainMenu = stepContext.result.index;
         switch (stepContext.values.mainMenu) {
-            case 0: //Contact
+            case 0: //1,联系人查询
                 return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
-                    prompt: Hint.promptSubMenu[this.userProfile.language],
-                    retryPrompt:Hint.retryChoice[this.userProfile.language],
-                    choices: Menu.subMenu1[this.userProfile.language]
+                    prompt: Hint.promptSubMenu,
+                    retryPrompt: Hint.retryChoice,
+                    choices: Menu.subMenu1
                 });
-            case 1: //Project
+            case 1: //2,项目状态查询
                 return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
-                    prompt: Hint.promptSubMenu[this.userProfile.language],
-                    retryPrompt:Hint.retryChoice[this.userProfile.language],
-                    choices: Menu.subMenu2[this.userProfile.language]
+                    prompt: Hint.promptSubMenu,
+                    retryPrompt: Hint.retryChoice,
+                    choices: Menu.subMenu2
                 });
             default:
-                
+
                 return await stepContext.next();
         }
 
-       
+
     }
 
     async routeStep(stepContext) {
         stepContext.values.subMenu = stepContext.result.index;
         switch (stepContext.values.mainMenu) {
-            case 0: //Contact
+            case 0: //1,联系人查询
                 switch (stepContext.values.subMenu) {
-                    case 0://Tender &VO Business
-                    return await stepContext.beginDialog(DIALOG_CONTACT_TENDERVO,this.userProfile.language);
-                    case 1://Order Business
+                    case 0://1, Tender&VO业务客服联系人
+                        return await stepContext.beginDialog(CN_DIALOG_CONTACT01);
+                    case 1://2, 排产业务客服联系人
                         break;
-                    case 2://Special Process Contact
+                    case 2://3, 特殊流程联系人
                         break;
+                    case 3://4.返回上一级菜单
+                        return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
- 
+                break;
+            case 1://2,项目状态查询
+                switch (stepContext.values.subMenu) {
+                    case 0://1.国内询价项目
+                        break;
+                    case 1://2.国内排产项目
+                        break;
+                    case 2://3.出口询价项目
+                        break;
+                    case 3://4.出口排产项目
+                        break;
+                    case 4://5.VO项目
+                        break;
+                    case 5://6.返回上一级菜单
+                    return await stepContext.replaceDialog(CN_DIALOG_ROOT);
+                }
+                break;
+
 
         }
-        await stepContext.context.sendActivity(Hint.messageUnderConstruction[this.userProfile.language]);
-        return await stepContext.next();
+        await stepContext.context.sendActivity(Hint.messageUnderConstruction);
+        await stepContext.context.sendActivity(Hint.goodbye);
+        return await stepContext.endDialog();//next();
 
     }
     async finalStep(stepContext) {
-        if(stepContext.result.index===0)
-        {
-            await stepContext.context.sendActivity(Hint.messageGoodFeedback[this.userProfile.language]);
+        if (stepContext.result.index === 0) {
+            await stepContext.context.sendActivity(Hint.messageGoodFeedback);
         }
-        else{
-            await stepContext.context.sendActivity(Hint.messageBadFeedback[this.userProfile.language]);
+        else {
+            await stepContext.context.sendActivity(Hint.messageBadFeedback);
         }
-        
-        await stepContext.context.sendActivity(Hint.goodbye[this.userProfile.language]);
-        return await stepContext.endDialog();
 
-        const userInfo = stepContext.result;
-        const status = 'You are signed up to review ' +
-            (userInfo.companiesToReview.length === 0 ? 'no companies' : userInfo.companiesToReview.join(' and ')) + '.';
-        await stepContext.context.sendActivity(status);
-        await this.userProfileAccessor.set(stepContext.context, userInfo);
+        await stepContext.context.sendActivity(Hint.goodbye);
         return await stepContext.endDialog();
     }
 }
 
-module.exports.DialogRoot = DialogRoot;
-module.exports.DIALOG_ROOT = DIALOG_ROOT;
+module.exports.CN_DialogRoot = CN_DialogRoot;
+module.exports.CN_DIALOG_ROOT = CN_DIALOG_ROOT;

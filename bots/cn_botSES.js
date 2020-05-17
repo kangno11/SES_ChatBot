@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler,TeamsActivityHandler } = require('botbuilder');
-const Hint = require('../resources/hint.json');
+const { ActivityHandler, TeamsActivityHandler } = require('botbuilder');
+const Hint = require('../resources/cn_hint.json');
 
 //class BotSES extends ActivityHandler {
-class BotSES extends TeamsActivityHandler {
+class CN_BotSES extends TeamsActivityHandler {
     /**
      *
      * @param {ConversationState} conversationState
@@ -24,21 +24,38 @@ class BotSES extends TeamsActivityHandler {
         this.conversationDialogAccessor = this.conversationState.createProperty('ConversationDialog');
 
         this.onMessage(async (context, next) => {
-            console.log(Date().toString()+ '/'+context.activity.from.name + '/' + context.activity.type + '/' + context.activity.text   );
+            console.log(context.activity.channelData.clientTimestamp + '/' + context.activity.from.name + '/' + context.activity.type +'/'+context.activity.text );
 
+            if (context.activity.type === "message" && context.activity.text ===Hint.shortcutMainMenu ) 
+            {
+                await this.conversationState.clear(context);
+            }
             // Run the Dialog with the new message Activity.
             await this.dialog.run(context, this.conversationDialogAccessor);
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+
+        this.onTeamsMembersAdded(async (context, next) => {
+            const membersAdded = context.activity.membersAdded;
+            for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+                if (membersAdded[cnt].id !== context.activity.recipient.id) {
+
+                    await context.sendActivity(`你好 ${membersAdded[cnt].name}。` + Hint.welcome);
+                }
+            }
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
+
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    
-                    await context.sendActivity(`Hello ${ membersAdded[cnt].name }.`+ Hint.welcome.en);
-                    await context.sendActivity(`你好 ${ membersAdded[cnt].name }。`+ Hint.welcome.cn);
+
+                    await context.sendActivity(`你好 ${membersAdded[cnt].name}。` + Hint.welcome);
                 }
             }
 
@@ -59,4 +76,4 @@ class BotSES extends TeamsActivityHandler {
     }
 }
 
-module.exports.BotSES = BotSES;
+module.exports.CN_BotSES = CN_BotSES;

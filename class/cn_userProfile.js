@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-class UserProfile {
+class CN_UserProfile {
     constructor() {
         this.language = "" ;
         this.save_language = false ;
@@ -13,4 +13,4 @@ class UserProfile {
     }
 }
 
-module.exports.UserProfile = UserProfile;
+module.exports.CN_UserProfile = CN_UserProfile;

@@ -6,10 +6,15 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, UserState, ConversationState } = require('botbuilder');
+const { 
+    BotFrameworkAdapter, 
+    MemoryStorage, 
+    UserState, 
+    ConversationState 
+} = require('botbuilder');
 
-const { BotSES } = require('./bots/botSES');
-const { DialogRoot } = require('./dialogs/dialogRoot');
+const { CN_BotSES } = require('./bots/cn_botSES');
+const { CN_DialogRoot } = require('./dialogs/cn_dialogRoot');
 
 // Read environment variables from .env file
 const ENV_FILE = path.join(__dirname, '.env');
@@ -25,25 +30,25 @@ server.listen(process.env.port || process.env.PORT || 3977, function() {
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
+const cn_adapter = new BotFrameworkAdapter({
+    appId: process.env.CN_MicrosoftAppId,
+    appPassword: process.env.CN_MicrosoftAppPassword
 });
 
 // Define state store for your bot.
 // See https://aka.ms/about-bot-state to learn more about bot state.
-const memoryStorage = new MemoryStorage();
+const cn_memoryStorage = new MemoryStorage();
 
 // Create user and conversation state with in-memory storage provider.
-const userState = new UserState(memoryStorage);
-const conversationState = new ConversationState(memoryStorage);
+const cn_userState = new UserState(cn_memoryStorage);
+const cn_conversationState = new ConversationState(cn_memoryStorage);
 
 // Create the main dialog.
-const dialogRoot = new DialogRoot(userState);
-const botSES = new BotSES(conversationState, userState, dialogRoot);
+const cn_dialogRoot = new CN_DialogRoot(cn_userState);
+const cn_botSES = new CN_BotSES(cn_conversationState, cn_userState, cn_dialogRoot);
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+cn_adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -61,13 +66,13 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity('The bot encountered an error or bug.');
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
     // Clear out state
-    await conversationState.clear(context);
+    await cn_conversationState.clear(context);
 };
 
 // Listen for incoming requests.
-server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
+server.post('/api/cn', (req, res) => {
+    cn_adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
-        await botSES.run(context);
+        await cn_botSES.run(context);
     });
 });

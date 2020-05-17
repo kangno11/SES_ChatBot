@@ -1,0 +1,15 @@
+{
+    "welcome":"我是SES人工聊天机器人。请尝试着和我说 “hi”来开始我们的聊天吧！",
+    "goodbye":"本次对话结束,祝您工作顺利！再见！",
+    "promptLanguage":"请选择工作语言。",
+    "promptMainMenu":"请选择主菜单。",
+    "promptSubMenu":"请选择二级子菜单。",
+    "promptQueryMode":"请选择查询模式。",
+    "promptKeyWord":"请输入查询关键字。",
+    "promptFeedback":"请确认查询结果是否满足您的期望",
+    "retryChoice": "请输入选项编号或点击选项按钮完成选择。",
+    "messageUnderConstruction":"这项功能正在开发中。",
+    "messageGoodFeedback":"很高兴能帮到您！",
+    "messageBadFeedback":"很遗憾暂时没能帮到您！",
+    "shortcutMainMenu":"m"
+}
