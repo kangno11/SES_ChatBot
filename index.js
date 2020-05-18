@@ -69,6 +69,7 @@ cn_adapter.onTurnError = async (context, error) => {
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
     // Clear out state
     await cn_conversationState.clear(context);
+    await cn_conversationState.saveChanges(context, false);
 };
 
 // Listen for incoming requests.
