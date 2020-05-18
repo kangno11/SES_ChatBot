@@ -3,6 +3,10 @@
 
 const path = require('path');
 const restify = require('restify');
+const log4js = require('log4js');
+const logconf = require('./logConfigure.json');
+log4js.configure(logconf);
+const cn_logger = log4js.getLogger("cn");
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -23,9 +27,7 @@ require('dotenv').config({ path: ENV_FILE });
 // Create HTTP server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3977, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
-    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
+    cn_logger.debug(`${ server.name } listening to ${ server.url }`);
 });
 
 // Create adapter.
@@ -44,23 +46,23 @@ const cn_userState = new UserState(cn_memoryStorage);
 const cn_conversationState = new ConversationState(cn_memoryStorage);
 
 // Create the main dialog.
-const cn_dialogRoot = new CN_DialogRoot(cn_userState);
-const cn_botSES = new CN_BotSES(cn_conversationState, cn_userState, cn_dialogRoot);
+const cn_dialogRoot = new CN_DialogRoot(cn_userState,cn_logger);
+const cn_botSES = new CN_BotSES(cn_conversationState, cn_userState, cn_dialogRoot,cn_logger);
 
 // Catch-all for errors.
 cn_adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError] unhandled error: ${ error }`);
+    cn_logger.error(`${context.activity.from.name}[onTurnError] unhandled error: ${ error }`);
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator
-    await context.sendTraceActivity(
-        'OnTurnError Trace',
-        `${ error }`,
-        'https://www.botframework.com/schemas/error',
-        'TurnError'
-    );
+    //await context.sendTraceActivity(
+    //    'OnTurnError Trace',
+    //    `${ error }`,
+    //    'https://www.botframework.com/schemas/error',
+    //    'TurnError'
+    //);
 
     // Send a message to the user
     await context.sendActivity('The bot encountered an error or bug.');

@@ -1,0 +1,28 @@
+{
+    "appenders": {
+        "consoleout": {
+            "type": "console"
+        },
+        "cnlog": {
+            "type": "file",
+            "filename": "./log/cnBotSES.log",
+            "maxLogSize": 10000000, 
+            "backups":5
+        }
+    },
+    "categories": {
+        "default": {
+            "appenders": [
+                "consoleout"
+            ],
+            "level": "trace"
+        },
+        "cn": {
+            "appenders": [
+                "consoleout",
+                "cnlog"
+            ],
+            "level": "trace"
+        }
+    }
+}

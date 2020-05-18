@@ -9,9 +9,12 @@ const {
     ChoicePrompt,
     ChoiceFactory
 } = require('botbuilder-dialogs');
+var _ = require('lodash');
 
 const { CN_DialogContact01,
     CN_DIALOG_CONTACT01 } = require('./cn_dialogContact01');
+const { CN_DialogAdmin01,
+        CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_UserProfile } = require('../class/cn_userProfile');
 const Hint = require('../resources/cn_hint.json');
 const Menu = require('../resources/cn_menu.json');
@@ -23,18 +26,20 @@ const PROMPT_CHOICE_MAINMENU = 'PROMPT_CHOICE_MAINMENU';
 const PROMPT_CHOICE_SUBMENU = 'PROMPT_CHOICE_SUBMENU';
 
 class CN_DialogRoot extends ComponentDialog {
-    constructor(userState) {
+    constructor(userState, logger) {
         super(CN_DIALOG_ROOT);
         this.userState = userState;
         this.userProfileAccessor = userState.createProperty("UserProfile");
         this.userProfile = {}; //传入每一个二级dialog
+        this.logger = logger;
 
 
 
         //this.addDialog(new ChoicePrompt(PROMPT_CHOICE_LANGUAGE));//中英文bot分开开发
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_MAINMENU));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_SUBMENU));
-        this.addDialog(new CN_DialogContact01());
+        this.addDialog(new CN_DialogContact01(this.logger));
+        this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             //this.languageStep.bind(this),
             this.mainMenuStep.bind(this),
@@ -96,7 +101,7 @@ class CN_DialogRoot extends ComponentDialog {
         return await stepContext.prompt(PROMPT_CHOICE_MAINMENU, {
             prompt: Hint.promptMainMenu,
             retryPrompt: Hint.retryChoice,
-            choices: Menu.mainMenu
+            choices: _.union(Menu.mainMenu, ["管理员入口"]) //need to set access check later
         });
     }
 
@@ -115,9 +120,15 @@ class CN_DialogRoot extends ComponentDialog {
                     retryPrompt: Hint.retryChoice,
                     choices: Menu.subMenu2
                 });
+            case 2: //X,管理员入口
+                return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
+                    prompt: Hint.promptSubMenu,
+                    retryPrompt: Hint.retryChoice,
+                    choices: Menu.subMenuX
+                });
             default:
 
-                return await stepContext.next();
+                return await stepContext.endDialog();
         }
 
 
@@ -151,7 +162,15 @@ class CN_DialogRoot extends ComponentDialog {
                     case 4://5.VO项目
                         break;
                     case 5://6.返回上一级菜单
-                    return await stepContext.replaceDialog(CN_DIALOG_ROOT);
+                        return await stepContext.replaceDialog(CN_DIALOG_ROOT);
+                }
+                break;
+            case 2://X,管理员入口
+                switch (stepContext.values.subMenu) {
+                    case 0://1.国内询价项目
+                    return await stepContext.beginDialog(CN_DIALOG_ADMIN01);
+                    case 1://6.返回上一级菜单
+                        return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
 

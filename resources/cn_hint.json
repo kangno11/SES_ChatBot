@@ -6,10 +6,15 @@
     "promptSubMenu":"请选择二级子菜单。",
     "promptQueryMode":"请选择查询模式。",
     "promptKeyWord":"请输入查询关键字。",
-    "promptFeedback":"请确认查询结果是否满足您的期望",
+    "promptFeedback":"请确认查询结果是否满足您的期望。",
+    "promptDatabase":"请上传数据库csv文件。",
     "retryChoice": "请输入选项编号或点击选项按钮完成选择。",
+    "retryDatabase": "数据库文件应该是csv类型，请再次上传。",
     "messageUnderConstruction":"这项功能正在开发中。",
     "messageGoodFeedback":"很高兴能帮到您！",
     "messageBadFeedback":"很遗憾暂时没能帮到您！",
+    "messageIncorrectContentType":"文件类型不符合规定！",
+    "messageIncorrectFileName":"文件名称与预设不符！",
+    "messageLoadDBSuccess":"数据库加载成功！",
     "shortcutMainMenu":"m"
 }

@@ -8,7 +8,8 @@ const {
     WaterfallDialog,
     ChoicePrompt, 
     ChoiceFactory,
-    ConfirmPrompt 
+    ConfirmPrompt,
+    AttachmentPrompt
 } = require('botbuilder-dialogs');
 const { CardFactory } = require('botbuilder');
 const Hint = require('../resources/cn_hint.json');
@@ -23,9 +24,9 @@ const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
 class CN_DialogContact01 extends ComponentDialog {
-    constructor() {
+    constructor(logger) {
         super(CN_DIALOG_CONTACT01);
-   
+        this.logger = logger;
 
         //this.addDialog(new NumberPrompt(NUMBER_PROMPT));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYMODE));

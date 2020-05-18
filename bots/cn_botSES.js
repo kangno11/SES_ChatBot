@@ -12,19 +12,21 @@ class CN_BotSES extends TeamsActivityHandler {
      * @param {UserState} userState
      * @param {Dialog} dialog
      */
-    constructor(conversationState, userState, dialog) {
+    constructor(conversationState, userState, dialog,logger) {
         super();
-        if (!conversationState) throw new Error('[DialogBot]: Missing parameter. conversationState is required');
-        if (!userState) throw new Error('[DialogBot]: Missing parameter. userState is required');
-        if (!dialog) throw new Error('[DialogBot]: Missing parameter. dialog is required');
+        if (!conversationState) throw new Error('[cn_botSES]: Missing parameter. conversationState is required');
+        if (!userState) throw new Error('[cn_botSES]: Missing parameter. userState is required');
+        if (!dialog) throw new Error('[cn_botSES]: Missing parameter. dialog is required');
+        if (!logger) throw new Error('[cn_botSES]: Missing parameter. logger is required');
 
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialog = dialog;
         this.conversationDialogAccessor = this.conversationState.createProperty('ConversationDialog');
+        this.logger = logger;
 
         this.onMessage(async (context, next) => {
-            console.log(context.activity.channelData.clientTimestamp + '/' + context.activity.from.name + '/' + context.activity.type +'/'+context.activity.text );
+            this.logger.debug(context.activity.from.name + '/' + context.activity.type +'/'+context.activity.text );
 
             if (context.activity.type === "message" && context.activity.text ===Hint.shortcutMainMenu ) 
             {
