@@ -19,7 +19,7 @@
     "messageQueryFailure":"没有找到相关的记录，请再一次查询！",
     "shortcutMainMenu":"m",
     "Contact01_SelectRegion":"请选择区域。",
-    "Contact01_SelectBranch":"请输入分公司代码或名称查询（如：KCC-01、南京）。",
+    "Contact01_SelectBranch":"请输入分公司代码或名称查询（如：KCC-01、南京、NanJing）。",
     "Contact01_ValideBranch":"请至少输入两位字符！",
     "other":"other"
 }

@@ -21,7 +21,6 @@ const Menu = require('../config/cn_menu.json');
 
 const CN_DIALOG_ROOT = 'CN_DIALOG_ROOT';
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
-const PROMPT_CHOICE_LANGUAGE = 'PROMPT_CHOICE_LANGUAGE';
 const PROMPT_CHOICE_MAINMENU = 'PROMPT_CHOICE_MAINMENU';
 const PROMPT_CHOICE_SUBMENU = 'PROMPT_CHOICE_SUBMENU';
 
@@ -70,38 +69,16 @@ class CN_DialogRoot extends ComponentDialog {
         }
     }
 
-    /*
-    async languageStep(stepContext) {
-        if (this.userProfile.language === "") {
-            this.userProfile.save_language = true;
-            return await stepContext.prompt(PROMPT_CHOICE_LANGUAGE, {
-                prompt: Hint.promptLanguage.en + Hint.promptLanguage.cn,
-                choices: ChoiceFactory.toChoices(['English', '中文'])
-            });
-        }
-        else {
-            this.userProfile.save_language = false;
-            //await stepContext.context.sendActivity(this.userProfile.language);
-            return await stepContext.next();
-        }
-    }
-    */
 
     async mainMenuStep(stepContext) {
-        /*
-        if (this.userProfile.save_language) {
-            if (stepContext.result.value === "English") {
-                this.userProfile.language = "en";
-            }
-            if (stepContext.result.value === "中文") {
-                this.userProfile.language = "cn";
-            }
-        }
-        */
+   
         return await stepContext.prompt(PROMPT_CHOICE_MAINMENU, {
             prompt: Hint.promptMainMenu,
             retryPrompt: Hint.retryChoice,
-            choices: _.union(Menu.mainMenu, ["管理员入口"]) //need to set access check later
+            choices: stepContext.context.activity.channelId==="msteams"
+                ?Menu.mainMenu
+                : _.union(Menu.mainMenu, ["管理员入口"])
+          
         });
     }
 
@@ -167,9 +144,9 @@ class CN_DialogRoot extends ComponentDialog {
                 break;
             case 2://X,管理员入口
                 switch (stepContext.values.subMenu) {
-                    case 0://1.国内询价项目
+                    case 0://1.数据库更新
                     return await stepContext.beginDialog(CN_DIALOG_ADMIN01);
-                    case 1://6.返回上一级菜单
+                    case 1://2.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
@@ -190,7 +167,6 @@ class CN_DialogRoot extends ComponentDialog {
                 await stepContext.context.sendActivity(Hint.messageBadFeedback);
                 break;
             case 2://数据库加载
-                //_.times('1000',(a)=>{console.log(a)});
                 break;
 
         }

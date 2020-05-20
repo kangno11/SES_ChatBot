@@ -14,18 +14,13 @@ const {
 const { CardFactory, TurnContext } = require('botbuilder');
 const Hint = require('../config/cn_hint.json');
 const Menu = require('../config/cn_menu.json');
-const Database = require('../config/cn_database.json');;
-var fs = require('fs');
-var path = require('path');
-var request = require('request');
-var csv = require('csv');
-var request = require('request');
-var async = require('async');
+const Database = require('../config/cn_database.json');
+const path = require('path');
+const request = require('request');
+const csv = require('csv');
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 var _ = require('lodash');
-
-var low = require('lowdb');
-var FileSync = require('lowdb/adapters/FileSync');
-
 
 const CN_DIALOG_ADMIN01 = 'CN_DIALOG_ADMIN01';//Tender&VO业务客服联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
@@ -49,68 +44,69 @@ class CN_DialogAdmin01 extends ComponentDialog {
 
 
     async attachmentStep(stepContext) {
-
-
         // Ask the user to enter their age.
         return await stepContext.prompt(PROMPT_ATTACHMENT_DATABASE, {
             prompt: Hint.promptDatabase,
             retryPrompt: Hint.retryDatabase
         });
     }
+
     async loadDBStep(stepContext) {
         var lastrefreshuser = stepContext.context.activity.from.name;
         var db = new Array();
         request(stepContext.result[0].contentUrl)
             .pipe(csv.parse({ delimiter: ',', ltrim: true, from: 2 }))
             .pipe(csv.transform(function (line) {
-
-                var regionindex = _.findIndex(db, { region: line[0] });
-                if (regionindex === -1) {
-                    db = _.concat(db, {
-                        region: line[0],
-                        super: line[9],
-                        superPhone: line[10],
-                        superMail: line[11],
-                        branches: [
-                            {
-                                branch: line[1],
-                                branchCode: line[2],
-                                engineer: line[3],
-                                engineerPhone: line[4],
-                                engineerMail: line[5],
-                                backup: line[6],
-                                backupPhone: line[7],
-                                backupMail: line[8]
-                            }
-                        ]
-                    });
-                }
-                else {
-                    db[regionindex].branches = _.concat(db[regionindex].branches,
-                        {
-                            branch: line[1],
-                            branchCode: line[2],
-                            engineer: line[3],
-                            engineerPhone: line[4],
-                            engineerMail: line[5],
-                            backup: line[6],
-                            backupPhone: line[7],
-                            backupMail: line[8]
+                switch (stepContext.result[0].id) {
+                    case 'Contact01':
+                        var regionindex = _.findIndex(db, { region: line[0] });
+                        if (regionindex === -1) {
+                            db = _.concat(db, {
+                                region: line[0],
+                                super: line[9],
+                                superPhone: line[10],
+                                superMail: line[11],
+                                branches: [
+                                    {
+                                        branch: line[1],
+                                        branchCode: line[2],
+                                        engineer: line[3],
+                                        engineerPhone: line[4],
+                                        engineerMail: line[5],
+                                        backup: line[6],
+                                        backupPhone: line[7],
+                                        backupMail: line[8]
+                                    }
+                                ]
+                            });
                         }
-                    );
+                        else {
+                            db[regionindex].branches = _.concat(db[regionindex].branches,
+                                {
+                                    branch: line[1],
+                                    branchCode: line[2],
+                                    engineer: line[3],
+                                    engineerPhone: line[4],
+                                    engineerMail: line[5],
+                                    backup: line[6],
+                                    backupPhone: line[7],
+                                    backupMail: line[8]
+                                }
+                            );
+                        }
+                        break;
                 }
+
             }))
-            //.pipe(csv.stringify({ quoted: true }))
-            //.pipe(fs.createWriteStream(path.resolve(__dirname, "../csv/" + Database.Contact01.csv)))
             .on('finish', function () {
                 try {
-                    var adapter = new FileSync(path.resolve(__dirname, "../db/" + stepContext.result[0].db));
+                    var adapter = new FileSync(
+                        path.resolve(__dirname, "../db/" + stepContext.result[0].db));
                     var lowdb = low(adapter);
                     var d = new Date();
                     lowdb.defaults({ db: [], lastRefresh: {}, countRefresh: 0 })
                         .write();
-
-                    lowdb.set('lastRefresh.user', lastrefreshuser)//稍后处理
+                    lowdb.set('lastRefresh.user', lastrefreshuser)
                         .write();
                     lowdb.set('lastRefresh.date', d.toLocaleDateString())
                         .write();
@@ -118,19 +114,14 @@ class CN_DialogAdmin01 extends ComponentDialog {
                         .write();
                     lowdb.update('countRefresh', n => n + 1)
                         .write();
-                    //console.log(JSON.stringify(db[0]));
                     lowdb.set('db', db)
                         .write();
-
                     console.log('Database Completed Successfully');
                 }
                 catch (e) {
                     console.log(e);
                 }
-            })
-            ;
-            
-
+            });
         await stepContext.context.sendActivity(Hint.messageLoadDBSuccess);
         return await stepContext.endDialog({ index: 2 });
     }
@@ -140,6 +131,7 @@ class CN_DialogAdmin01 extends ComponentDialog {
             var dbinfo = _.find(Database, { 'csv': promptContext.recognized.value[0].name });
             if (dbinfo) {
                 promptContext.recognized.value[0].db = dbinfo.db;
+                promptContext.recognized.value[0].id = dbinfo.id;
                 return true;
             }
             else {

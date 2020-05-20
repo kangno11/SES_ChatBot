@@ -15,19 +15,16 @@ const { CardFactory } = require('botbuilder');
 const Hint = require('../config/cn_hint.json');
 const Menu = require('../config/cn_menu.json');
 const Card = require('../config/cn_card.json');
+const Database = require('../config/cn_database.json');
+const path = require('path');
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 var _ = require('lodash');
-var path = require('path');
-
-var low = require('lowdb');
-var FileSync = require('lowdb/adapters/FileSync');
-var adapter = new FileSync(path.resolve(__dirname, "../db/cnDB_Contact01.json"));
-var lowdb = low(adapter);
-
 
 const CN_DIALOG_CONTACT01 = 'CN_DIALOG_CONTACT01';//Tender&VO业务客服联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_QUERYMODE = 'PROMPT_CHOICE_QUERYMODE';
-const PROMPT_TEXT_KEYWORD = 'PROMPT_TEXT_KEYWORD';
+const PROMPT_TEXT_BRANCH = 'PROMPT_TEXT_BRANCH';
 const PROMPT_CHOICE_REGION = 'PROMPT_CHOICE_REGION';
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
@@ -40,13 +37,13 @@ class CN_DialogContact01 extends ComponentDialog {
         //this.addDialog(new NumberPrompt(NUMBER_PROMPT));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYMODE));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_REGION, this.regionPromptValidator));
-        this.addDialog(new TextPrompt(PROMPT_TEXT_KEYWORD, this.branchPromptValidator));
+        this.addDialog(new TextPrompt(PROMPT_TEXT_BRANCH, this.branchPromptValidator));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryModeStep.bind(this),
-            this.keyWordStep.bind(this),
-            this.queryDBStep.bind(this),
-            this.finalStep.bind(this)
+            this.queryDatabaseStep.bind(this),
+            this.queryDisplayStep.bind(this),
+            this.queryConfirmationStep.bind(this)
         ]));
 
         this.initialDialogId = DIALOG_WATERFALL;
@@ -59,28 +56,24 @@ class CN_DialogContact01 extends ComponentDialog {
         });
     }
 
-    async keyWordStep(stepContext) {
-        // Set the user's name to what they entered in response to the name prompt.
+    async queryDatabaseStep(stepContext) {
         stepContext.values.queryMode = stepContext.result;
-
         switch (stepContext.result.index) {
             case 0: //查询区域主管
+            var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
+            var lowdb = low(adapter);
                 return await stepContext.prompt(PROMPT_CHOICE_REGION, {
                     prompt: Hint.Contact01_SelectRegion,
                     retryPrompt: Hint.retryChoice,
                     choices: lowdb.get('db').map('region').value()
-                    //choices: Menu.Contact01_QueryMode
                 });
             case 1://查询分公司工程师
-                return await stepContext.prompt(PROMPT_TEXT_KEYWORD, {
+                return await stepContext.prompt(PROMPT_TEXT_BRANCH, {
                     prompt: Hint.Contact01_SelectBranch
                 });
-
-
         }
-
     }
-    async queryDBStep(stepContext) {
+    async queryDisplayStep(stepContext) {
 
         switch (stepContext.values.queryMode.index) {
             case 0://查询区域主管
@@ -90,7 +83,7 @@ class CN_DialogContact01 extends ComponentDialog {
                     .replace('<super>', d.super)
                     .replace('<superPhone>', d.superPhone)
                     .replace('<superMail>', d.superMail)
-                    .replace('<lastrefreshdate>', d.lastrefreshdate)
+                    .replace('<lastrefreshdate>', d.lastrefreshdate + '  ' + d.lastrefreshtime)
                     ;
                 await stepContext.context.sendActivity(
                     {
@@ -107,7 +100,7 @@ class CN_DialogContact01 extends ComponentDialog {
                     .replace('<backup>', d.backup)
                     .replace('<backupPhone>', d.backupPhone)
                     .replace('<backupMail>', d.backupMail)
-                    .replace('<lastrefreshdate>', d.lastrefreshdate)
+                    .replace('<lastrefreshdate>', d.lastrefreshdate + '  ' + d.lastrefreshtime)
                     ;
                 await stepContext.context.sendActivity(
                     {
@@ -124,7 +117,7 @@ class CN_DialogContact01 extends ComponentDialog {
             }
         );
     }
-    async finalStep(stepContext) {
+    async queryConfirmationStep(stepContext) {
         //console.log(stepContext.result);
         return await stepContext.endDialog(stepContext.result);
 
@@ -140,6 +133,8 @@ class CN_DialogContact01 extends ComponentDialog {
                 promptContext.context.sendActivity(Hint.Contact01_ValideBranch);
                 return false;
             }
+            var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
+            var lowdb = low(adapter);
             var d = lowdb.get('db')
                 .map("branches")
                 .flattenDepth(1)
@@ -150,31 +145,29 @@ class CN_DialogContact01 extends ComponentDialog {
             if (d) {
                 promptContext.recognized.value = d;
                 promptContext.recognized.value.lastrefreshdate = lowdb.get("lastRefresh.date").value();
+                promptContext.recognized.value.lastrefreshtime = lowdb.get("lastRefresh.time").value();
                 return true;
             }
             else {
                 promptContext.context.sendActivity(Hint.messageQueryFailure);
             }
-
-
-
         }
     }
 
     async regionPromptValidator(promptContext) {
         if (promptContext.recognized.succeeded) {
             var k = promptContext.recognized.value.value;
+            var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
+            var lowdb = low(adapter);
             var d = lowdb.get('db').find({ region: k }).value();
             if (d) {
                 promptContext.recognized.value = d;
                 promptContext.recognized.value.lastrefreshdate = lowdb.get("lastRefresh.date").value();
+                promptContext.recognized.value.lastrefreshtime = lowdb.get("lastRefresh.time").value();
                 return true;
             }
         }
     }
-
-
-
 }
 
 module.exports.CN_DialogContact01 = CN_DialogContact01;
