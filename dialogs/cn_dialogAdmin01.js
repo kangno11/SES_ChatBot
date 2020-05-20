@@ -129,13 +129,15 @@ class CN_DialogAdmin01 extends ComponentDialog {
                 }
             })
             ;
+            
+
         await stepContext.context.sendActivity(Hint.messageLoadDBSuccess);
         return await stepContext.endDialog({ index: 2 });
     }
 
     async dbPromptValidator(promptContext) {
         if (promptContext.recognized.succeeded && promptContext.recognized.value[0].contentType === "text/csv") {
-            var dbinfo = _.find(Database, { 'csv': promptContext.recognized.value[0].name }); 
+            var dbinfo = _.find(Database, { 'csv': promptContext.recognized.value[0].name });
             if (dbinfo) {
                 promptContext.recognized.value[0].db = dbinfo.db;
                 return true;
