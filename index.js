@@ -4,9 +4,9 @@
 const path = require('path');
 const restify = require('restify');
 const log4js = require('log4js');
-const logconf = require('./logConfigure.json');
+const logconf = require('./config/cn_log.json');
 log4js.configure(logconf);
-const cn_logger = log4js.getLogger("cn");
+const cn_logger = log4js.getLogger();
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler, TeamsActivityHandler } = require('botbuilder');
-const Hint = require('../resources/cn_hint.json');
+const Hint = require('../config/cn_hint.json');
 
 //class BotSES extends ActivityHandler {
 class CN_BotSES extends TeamsActivityHandler {
@@ -12,7 +12,7 @@ class CN_BotSES extends TeamsActivityHandler {
      * @param {UserState} userState
      * @param {Dialog} dialog
      */
-    constructor(conversationState, userState, dialog,logger) {
+    constructor(conversationState, userState, dialog, logger) {
         super();
         if (!conversationState) throw new Error('[cn_botSES]: Missing parameter. conversationState is required');
         if (!userState) throw new Error('[cn_botSES]: Missing parameter. userState is required');
@@ -26,10 +26,15 @@ class CN_BotSES extends TeamsActivityHandler {
         this.logger = logger;
 
         this.onMessage(async (context, next) => {
-            this.logger.debug(context.activity.from.name + '/' + context.activity.type +'/'+context.activity.text );
+            if (context.activity.attachments) { 
+                this.logger.debug(context.activity.from.name + '\t' + context.activity.attachments[0].contentType + '\t' +  context.activity.attachments[0].name);
 
-            if (context.activity.type === "message" && context.activity.text ===Hint.shortcutMainMenu ) 
-            {
+            }
+            else {
+                this.logger.debug(context.activity.from.name + '\t' + context.activity.type + '\t' + context.activity.text);
+            }
+
+            if (context.activity.type === "message" && context.activity.text === Hint.shortcutMainMenu) {
                 await this.conversationState.clear(context);
             }
             // Run the Dialog with the new message Activity.

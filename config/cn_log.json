@@ -3,7 +3,7 @@
         "consoleout": {
             "type": "console"
         },
-        "cnlog": {
+        "logout": {
             "type": "file",
             "filename": "./log/cnBotSES.log",
             "maxLogSize": 10000000, 
@@ -13,14 +13,8 @@
     "categories": {
         "default": {
             "appenders": [
-                "consoleout"
-            ],
-            "level": "trace"
-        },
-        "cn": {
-            "appenders": [
                 "consoleout",
-                "cnlog"
+                "logout"
             ],
             "level": "trace"
         }

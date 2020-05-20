@@ -16,8 +16,8 @@ const { CN_DialogContact01,
 const { CN_DialogAdmin01,
         CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_UserProfile } = require('../class/cn_userProfile');
-const Hint = require('../resources/cn_hint.json');
-const Menu = require('../resources/cn_menu.json');
+const Hint = require('../config/cn_hint.json');
+const Menu = require('../config/cn_menu.json');
 
 const CN_DIALOG_ROOT = 'CN_DIALOG_ROOT';
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
@@ -182,14 +182,22 @@ class CN_DialogRoot extends ComponentDialog {
 
     }
     async finalStep(stepContext) {
-        if (stepContext.result.index === 0) {
-            await stepContext.context.sendActivity(Hint.messageGoodFeedback);
-        }
-        else {
-            await stepContext.context.sendActivity(Hint.messageBadFeedback);
+        switch (stepContext.result.index){
+            case 0: //满足期望
+                await stepContext.context.sendActivity(Hint.messageGoodFeedback);           
+                break;
+            case 1://不满足期望
+                await stepContext.context.sendActivity(Hint.messageBadFeedback);
+                break;
+            case 2://数据库加载
+                //_.times('1000',(a)=>{console.log(a)});
+                break;
+
         }
 
         await stepContext.context.sendActivity(Hint.goodbye);
+    
+
         return await stepContext.endDialog();
     }
 }

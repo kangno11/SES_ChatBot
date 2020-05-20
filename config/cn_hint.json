@@ -5,7 +5,6 @@
     "promptMainMenu":"请选择主菜单。",
     "promptSubMenu":"请选择二级子菜单。",
     "promptQueryMode":"请选择查询模式。",
-    "promptKeyWord":"请输入查询关键字。",
     "promptFeedback":"请确认查询结果是否满足您的期望。",
     "promptDatabase":"请上传数据库csv文件。",
     "retryChoice": "请输入选项编号或点击选项按钮完成选择。",
@@ -16,5 +15,11 @@
     "messageIncorrectContentType":"文件类型不符合规定！",
     "messageIncorrectFileName":"文件名称与预设不符！",
     "messageLoadDBSuccess":"数据库加载成功！",
-    "shortcutMainMenu":"m"
+    "messageLoadDBInProgress":"后台正在处理数据加载，稍后会通知您结果！",
+    "messageQueryFailure":"没有找到相关的记录，请再一次查询！",
+    "shortcutMainMenu":"m",
+    "Contact01_SelectRegion":"请选择区域。",
+    "Contact01_SelectBranch":"请输入分公司代码或名称查询（如：KCC-01、南京）。",
+    "Contact01_ValideBranch":"请至少输入两位字符！",
+    "other":"other"
 }
