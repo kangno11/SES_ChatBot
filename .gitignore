@@ -1,6 +1,7 @@
 node_modules
-log/*.log
-db/*.json
+log
+db
 .vscode
 .env
 .vscode
+.gitignore
