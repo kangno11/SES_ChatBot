@@ -1,6 +1,6 @@
 node_modules
-log
-db
+log/*.log
+db/*.json
 .vscode
 .env
 .vscode
