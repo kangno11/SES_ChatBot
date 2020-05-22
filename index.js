@@ -72,7 +72,7 @@ cn_adapter.onTurnError = async (context, error) => {
     await cn_conversationState.saveChanges(context, false);
 };
 
-// Listen for incoming requests.
+// Listen for incoming requests. 
 server.post('/api/cn', (req, res) => {
     cn_adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
