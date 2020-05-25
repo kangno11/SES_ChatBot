@@ -6,50 +6,62 @@
     "body": [
       {
         "type": "TextBlock",
-        "text": "<branch> 分公司工程师:",
+        "text": "Tender&VO 业务客服联系人",
         "weight": "bolder",
-        "isSubtle": false
+        "size": "large",
+        "color":"Accent"
+
       },
       {
         "type": "TextBlock",
-        "text": "<engineer>",
+        "text": "${branch} 分公司工程师:",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing":"Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "${engineer}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "<engineerPhone>",
+        "text": "${engineerPhone}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "<engineerMail>",
+        "text": "${engineerMail}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
         "text": "备选工程师：",
         "weight": "bolder",
-        "isSubtle": false
+        "isSubtle": false,
+        "spacing":"Medium"
       },
       {
         "type": "TextBlock",
-        "text": "<backup>",
+        "text": "${backup}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "<backupPhone>",
+        "text": "${backupPhone}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "<backupMail>",
+        "text": "${backupMail}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "数据库最近一次更新日期：<lastrefreshdate>",
-        "separator": true
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size":"small",
+        "spacing":"Medium"
       }
     ]
   },
@@ -60,29 +72,40 @@
     "body": [
       {
         "type": "TextBlock",
-        "text": "<region>区域主管:",
+        "text": "Tender&VO 业务客服联系人",
         "weight": "bolder",
-        "isSubtle": false
+        "size": "large",
+        "color":"Accent"
+
       },
       {
         "type": "TextBlock",
-        "text": "<super>",
+        "text": "${region}区域主管:",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing":"Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "${super}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "<superPhone>",
+        "text": "${superPhone}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "<superMail>",
+        "text": "${superMail}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "数据库最近一次更新日期：<lastrefreshdate>",
-        "separator": true
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size":"small",
+        "spacing":"Medium"
       }
     ]
   },
@@ -93,50 +116,62 @@
     "body": [
       {
         "type": "TextBlock",
-        "text": "<branch> 分公司工程师:",
+        "text": "排产业务客服联系人",
         "weight": "bolder",
-        "isSubtle": false
+        "size": "large",
+        "color":"Accent"
+
       },
       {
         "type": "TextBlock",
-        "text": "<engineer>",
+        "text": "${branch} 分公司工程师:",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing":"Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "${engineer}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "<engineerPhone>",
+        "text": "${engineerPhone}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "<engineerMail>",
+        "text": "${engineerMail}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
         "text": "备选工程师：",
         "weight": "bolder",
-        "isSubtle": false
+        "isSubtle": false,
+        "spacing":"Medium"
       },
       {
         "type": "TextBlock",
-        "text": "<backup>",
+        "text": "${backup}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "<backupPhone>",
+        "text": "${backupPhone}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "<backupMail>",
+        "text": "${backupMail}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "数据库最近一次更新日期：<lastrefreshdate>",
-        "separator": true
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size":"small",
+        "spacing":"Medium"
       }
     ]
   },
@@ -147,29 +182,40 @@
     "body": [
       {
         "type": "TextBlock",
-        "text": "<region>区域主管:",
+        "text": "排产业务客服联系人",
         "weight": "bolder",
-        "isSubtle": false
+        "size": "large",
+        "color":"Accent"
+
       },
       {
         "type": "TextBlock",
-        "text": "<super>",
+        "text": "${region}区域主管:",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing":"Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "${super}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "<superPhone>",
+        "text": "${superPhone}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "<superMail>",
+        "text": "${superMail}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "数据库最近一次更新日期：<lastrefreshdate>",
-        "separator": true
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size":"small",
+        "spacing":"Medium"
       }
     ]
   }

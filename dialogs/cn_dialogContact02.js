@@ -20,6 +20,8 @@ const path = require('path');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 var _ = require('lodash');
+var ACData = require("adaptivecards-templating");
+
 
 const CN_DIALOG_CONTACT02 = 'CN_DIALOG_CONTACT02';//排产业务客服联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
@@ -78,33 +80,22 @@ class CN_DialogContact02 extends ComponentDialog {
         switch (stepContext.values.queryMode.index) {
             case 0://查询区域主管
                 var d = stepContext.result;
-                var c = JSON.stringify(Card.Contact02_AdaptiveRegion);
-                c = _.replace(c, '<region>', d.region)
-                    .replace('<super>', d.super)
-                    .replace('<superPhone>', d.superPhone)
-                    .replace('<superMail>', d.superMail)
-                    .replace('<lastrefreshdate>', d.lastrefreshdate + '  ' + d.lastrefreshtime)
-                    ;
+                var template  = new ACData.Template(Card.Contact02_AdaptiveRegion);
+                var card = template.expand({$root:d});
+
                 await stepContext.context.sendActivity(
                     {
-                        attachments: [CardFactory.adaptiveCard(JSON.parse(c))]
+                        attachments: [CardFactory.adaptiveCard(card)]
                     });
                 break;
             case 1://查询分公司工程师
                 var d = stepContext.result;
-                var c = JSON.stringify(Card.Contact02_AdaptiveBranch);
-                c = _.replace(c, '<branch>', d.branch)
-                    .replace('<engineer>', d.engineer)
-                    .replace('<engineerPhone>', d.engineerPhone)
-                    .replace('<engineerMail>', d.engineerMail)
-                    .replace('<backup>', d.backup)
-                    .replace('<backupPhone>', d.backupPhone)
-                    .replace('<backupMail>', d.backupMail)
-                    .replace('<lastrefreshdate>', d.lastrefreshdate + '  ' + d.lastrefreshtime)
-                    ;
+                var template  = new ACData.Template(Card.Contact02_AdaptiveBranch);
+                var card = template.expand({$root:d});
+
                 await stepContext.context.sendActivity(
                     {
-                        attachments: [CardFactory.adaptiveCard(JSON.parse(c))]
+                        attachments: [CardFactory.adaptiveCard(card)]
                     });
                 break;
         }
