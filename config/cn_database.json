@@ -4,5 +4,12 @@
         "csv":"cnDB_Contact01_Tender&VO.csv",
         "db":"cnDB_Contact01.json",
         "id":"Contact01"
+    },
+    "Contact02":
+    {
+        "csv":"cnDB_Contact02_Order.csv",
+        "db":"cnDB_Contact02.json",
+        "id":"Contact02"
     }
+
 }

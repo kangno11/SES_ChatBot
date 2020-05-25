@@ -85,5 +85,92 @@
         "separator": true
       }
     ]
+  },
+  "Contact02_AdaptiveBranch": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "<branch> 分公司工程师:",
+        "weight": "bolder",
+        "isSubtle": false
+      },
+      {
+        "type": "TextBlock",
+        "text": "<engineer>",
+        "separator": true
+      },
+      {
+        "type": "TextBlock",
+        "text": "<engineerPhone>",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "<engineerMail>",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "备选工程师：",
+        "weight": "bolder",
+        "isSubtle": false
+      },
+      {
+        "type": "TextBlock",
+        "text": "<backup>",
+        "separator": true
+      },
+      {
+        "type": "TextBlock",
+        "text": "<backupPhone>",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "<backupMail>",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：<lastrefreshdate>",
+        "separator": true
+      }
+    ]
+  },
+  "Contact02_AdaptiveRegion": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "<region>区域主管:",
+        "weight": "bolder",
+        "isSubtle": false
+      },
+      {
+        "type": "TextBlock",
+        "text": "<super>",
+        "separator": true
+      },
+      {
+        "type": "TextBlock",
+        "text": "<superPhone>",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "<superMail>",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：<lastrefreshdate>",
+        "separator": true
+      }
+    ]
   }
 }

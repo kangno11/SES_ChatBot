@@ -13,6 +13,8 @@ var _ = require('lodash');
 
 const { CN_DialogContact01,
     CN_DIALOG_CONTACT01 } = require('./cn_dialogContact01');
+const { CN_DialogContact02,
+        CN_DIALOG_CONTACT02 } = require('./cn_dialogContact02');
 const { CN_DialogAdmin01,
         CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_UserProfile } = require('../class/cn_userProfile');
@@ -38,6 +40,7 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_MAINMENU));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_SUBMENU));
         this.addDialog(new CN_DialogContact01(this.logger));
+        this.addDialog(new CN_DialogContact02(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             //this.languageStep.bind(this),
@@ -119,7 +122,7 @@ class CN_DialogRoot extends ComponentDialog {
                     case 0://1, Tender&VO业务客服联系人
                         return await stepContext.beginDialog(CN_DIALOG_CONTACT01);
                     case 1://2, 排产业务客服联系人
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_CONTACT02);
                     case 2://3, 特殊流程联系人
                         break;
                     case 3://4.返回上一级菜单

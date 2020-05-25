@@ -59,6 +59,7 @@ class CN_DialogAdmin01 extends ComponentDialog {
             .pipe(csv.transform(function (line) {
                 switch (stepContext.result[0].id) {
                     case 'Contact01':
+                    case 'Contact02':
                         var regionindex = _.findIndex(db, { region: line[0] });
                         if (regionindex === -1) {
                             db = _.concat(db, {
@@ -95,6 +96,7 @@ class CN_DialogAdmin01 extends ComponentDialog {
                             );
                         }
                         break;
+                                         
                 }
 
             }))
