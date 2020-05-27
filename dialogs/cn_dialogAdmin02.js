@@ -76,8 +76,8 @@ class CN_DialogAdmin02 extends ComponentDialog {
             text: Hint.messageDownloadAttachment,
             attachments: [{
                 name: txtFile,
-                contentType: 'text/plain',
-                contentUrl: `data:text/plain;base64,${base64TXT}`,
+                contentType: 'text/csv',
+                contentUrl: `data:text/csv;base64,${base64TXT}`,
             }]
 
         };
