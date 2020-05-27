@@ -5,7 +5,7 @@
     "promptMainMenu":"请选择主菜单。",
     "promptSubMenu":"请选择二级子菜单。",
     "promptQueryMode":"请选择查询模式。",
-    "promptQueryCategory":"请选择查询类别。",
+    "promptQuestionCategory":"请选择问题反馈类别。",
     "promptFeedback":"请确认查询结果是否满足您的期望。",
     "promptDatabase":"请上传数据库csv文件。",
     "promptQuestion":"请输入您想提的问题，管理员会尽快处理。",
@@ -21,7 +21,7 @@
     "messageExtractDBSuccess":"数据库导出成功，相关数据在服务端清除！",
     "messageLoadDBInProgress":"后台正在处理数据加载，稍后会通知您结果！",
     "messageQueryFailure":"没有找到相关的记录，请再一次查询！",
-    "messageOverTry":"您已尝试三次查询，看来数据库中目前没有相关的提问记录。",
+    "messageOverTry":"您已尝试三次查询，看来数据库中目前没有相关的记录。",
     "messageQuestionRecord":"您提的问题已记录。",
     "messageEmptyCategory":"暂时没有相关类别选项的问题反馈！",
     "messageDownloadAttachment":"请点击以下附件并下载！",
@@ -34,5 +34,7 @@
     "Contact02_ValidBranch":"请至少输入两位字符！",
     "Contact03_SelectQuestion":"请输入您想要咨询的问题关键字（如：非标、C-Process）。",
     "Contact03_ValidQuestion":"请至少输入两位字符！",
+    "Project01_SelectCSC":"请输入CSC号查询（首位0可以不用输入）。",
+    "Project01_ValidCSC":"请至少输入七位字符！",
     "other":"other"
 }

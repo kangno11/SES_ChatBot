@@ -97,14 +97,27 @@ class CN_DialogAdmin01 extends ComponentDialog {
                         }
                         break;
                     case 'Contact03':
-                            db = _.concat(db,{
-                                    id: line[0],
-                                    question: line[1],
-                                    answer: line[2]
-                                }
-                            );
+                        db = _.concat(db, {
+                            id: line[0],
+                            question: line[1],
+                            answer: line[2]
+                        }
+                        );
                         break;
-                                         
+                    case 'Project01':
+                        var cscindex = _.findIndex(db, { csc_id: line[1] });
+                        if (cscindex === -1) {
+                            db = _.concat(db, {
+                                csc_id: line[1],
+                                kss_engineer: line[7],
+                                project_name: line[10],
+                                kss_name: line[54],
+                                fl_sending_date: line[55],
+                                kss_estimated_date: line[57]
+                            });
+                        }
+                        break;
+
                 }
 
             }))

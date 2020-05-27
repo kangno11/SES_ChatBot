@@ -59,7 +59,7 @@ class CN_DialogAdmin02 extends ComponentDialog {
         }
         else {
             return await stepContext.prompt(PROMPT_CHOICE_CATEGORY, {
-                prompt: Hint.promptQueryCategory,
+                prompt: Hint.promptQuestionCategory,
                 retryPrompt: Hint.retryChoice,
                 choices: category
             });

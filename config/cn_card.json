@@ -258,5 +258,58 @@
         "spacing": "Medium"
       }
     ]
+  },
+  "Project01_AdaptiveCSC": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "国内询价项目",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "CSC号：${csc_id}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "项目名称：${project_name}",
+        "separator": true
+      },
+      {
+        "type": "TextBlock",
+        "text": "客服工程师：${kss_name}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "邮箱：${kss_engineer}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "项目接收时间：${fl_sending_date}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "预计完成时间：${kss_estimated_date}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
   }
 }

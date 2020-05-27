@@ -21,6 +21,12 @@
         "csv":"cnDB_Contact03_SpecialProcess.csv",
         "db":"cnDB_Contact03.json",
         "id":"Contact03"
+    },
+    "Project01":
+    {
+        "csv":"cnDB_Project01_Tender.csv",
+        "db":"cnDB_Project01.json",
+        "id":"Project01"
     }
 
     
