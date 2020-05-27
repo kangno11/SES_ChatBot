@@ -118,7 +118,7 @@ class CN_DialogContact01 extends ComponentDialog {
             k = _.trim(k);
             k = _.toUpper(k);
             if (_.size(k) < 2) {
-                promptContext.context.sendActivity(Hint.Contact01_ValideBranch);
+                await promptContext.context.sendActivity(Hint.Contact01_ValidBranch);
                 return false;
             }
             var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
@@ -137,7 +137,7 @@ class CN_DialogContact01 extends ComponentDialog {
                 return true;
             }
             else {
-                promptContext.context.sendActivity(Hint.messageQueryFailure);
+                await promptContext.context.sendActivity(Hint.messageQueryFailure);
             }
         }
     }

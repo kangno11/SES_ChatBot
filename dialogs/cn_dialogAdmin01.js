@@ -58,8 +58,8 @@ class CN_DialogAdmin01 extends ComponentDialog {
             .pipe(csv.parse({ delimiter: ',', ltrim: true, from: 2 }))
             .pipe(csv.transform(function (line) {
                 switch (stepContext.result[0].id) {
-                    case 'Contact01':
-                    case 'Contact02':
+                    case 'Contact01': //Tender/VO 业务联系人
+                    case 'Contact02': //Order 业务联系人
                         var regionindex = _.findIndex(db, { region: line[0] });
                         if (regionindex === -1) {
                             db = _.concat(db, {
@@ -95,6 +95,14 @@ class CN_DialogAdmin01 extends ComponentDialog {
                                 }
                             );
                         }
+                        break;
+                    case 'Contact03':
+                            db = _.concat(db,{
+                                    id: line[0],
+                                    question: line[1],
+                                    answer: line[2]
+                                }
+                            );
                         break;
                                          
                 }
@@ -137,7 +145,7 @@ class CN_DialogAdmin01 extends ComponentDialog {
                 return true;
             }
             else {
-                promptContext.context.sendActivity(Hint.messageIncorrectFileName);
+                await promptContext.context.sendActivity(Hint.messageIncorrectFileName);
             }
         }
 

@@ -9,15 +9,14 @@
         "text": "Tender&VO 业务客服联系人",
         "weight": "bolder",
         "size": "large",
-        "color":"Accent"
-
+        "color": "Accent"
       },
       {
         "type": "TextBlock",
         "text": "${branch} 分公司工程师:",
         "weight": "bolder",
         "isSubtle": false,
-        "spacing":"Large"
+        "spacing": "Large"
       },
       {
         "type": "TextBlock",
@@ -39,7 +38,7 @@
         "text": "备选工程师：",
         "weight": "bolder",
         "isSubtle": false,
-        "spacing":"Medium"
+        "spacing": "Medium"
       },
       {
         "type": "TextBlock",
@@ -60,8 +59,8 @@
         "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
-        "size":"small",
-        "spacing":"Medium"
+        "size": "small",
+        "spacing": "Medium"
       }
     ]
   },
@@ -75,15 +74,14 @@
         "text": "Tender&VO 业务客服联系人",
         "weight": "bolder",
         "size": "large",
-        "color":"Accent"
-
+        "color": "Accent"
       },
       {
         "type": "TextBlock",
         "text": "${region}区域主管:",
         "weight": "bolder",
         "isSubtle": false,
-        "spacing":"Large"
+        "spacing": "Large"
       },
       {
         "type": "TextBlock",
@@ -104,8 +102,8 @@
         "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
-        "size":"small",
-        "spacing":"Medium"
+        "size": "small",
+        "spacing": "Medium"
       }
     ]
   },
@@ -119,15 +117,14 @@
         "text": "排产业务客服联系人",
         "weight": "bolder",
         "size": "large",
-        "color":"Accent"
-
+        "color": "Accent"
       },
       {
         "type": "TextBlock",
         "text": "${branch} 分公司工程师:",
         "weight": "bolder",
         "isSubtle": false,
-        "spacing":"Large"
+        "spacing": "Large"
       },
       {
         "type": "TextBlock",
@@ -149,7 +146,7 @@
         "text": "备选工程师：",
         "weight": "bolder",
         "isSubtle": false,
-        "spacing":"Medium"
+        "spacing": "Medium"
       },
       {
         "type": "TextBlock",
@@ -170,8 +167,8 @@
         "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
-        "size":"small",
-        "spacing":"Medium"
+        "size": "small",
+        "spacing": "Medium"
       }
     ]
   },
@@ -185,15 +182,14 @@
         "text": "排产业务客服联系人",
         "weight": "bolder",
         "size": "large",
-        "color":"Accent"
-
+        "color": "Accent"
       },
       {
         "type": "TextBlock",
         "text": "${region}区域主管:",
         "weight": "bolder",
         "isSubtle": false,
-        "spacing":"Large"
+        "spacing": "Large"
       },
       {
         "type": "TextBlock",
@@ -214,8 +210,52 @@
         "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
-        "size":"small",
-        "spacing":"Medium"
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
+  },
+  "Contact03_AdaptiveQA": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "特殊流程联系人",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "提问关键字: ${keyword}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "Container",
+        "$data":"${qa}",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "问题：${question}",
+            "separator": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "答案：${answer}",
+            "spacing": "none"
+          }
+        ]
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
       }
     ]
   }

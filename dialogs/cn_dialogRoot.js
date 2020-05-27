@@ -15,8 +15,12 @@ const { CN_DialogContact01,
     CN_DIALOG_CONTACT01 } = require('./cn_dialogContact01');
 const { CN_DialogContact02,
         CN_DIALOG_CONTACT02 } = require('./cn_dialogContact02');
+        const { CN_DialogContact03,
+            CN_DIALOG_CONTACT03 } = require('./cn_dialogContact03');
 const { CN_DialogAdmin01,
         CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
+const { CN_DialogAdmin02,
+            CN_DIALOG_ADMIN02 } = require('./cn_dialogAdmin02');
 const { CN_UserProfile } = require('../class/cn_userProfile');
 const Hint = require('../config/cn_hint.json');
 const Menu = require('../config/cn_menu.json');
@@ -41,7 +45,9 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_SUBMENU));
         this.addDialog(new CN_DialogContact01(this.logger));
         this.addDialog(new CN_DialogContact02(this.logger));
+        this.addDialog(new CN_DialogContact03(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
+        this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             //this.languageStep.bind(this),
             this.mainMenuStep.bind(this),
@@ -124,7 +130,8 @@ class CN_DialogRoot extends ComponentDialog {
                     case 1://2, 排产业务客服联系人
                         return await stepContext.beginDialog(CN_DIALOG_CONTACT02);
                     case 2://3, 特殊流程联系人
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_CONTACT03);
+                    
                     case 3://4.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
@@ -149,7 +156,9 @@ class CN_DialogRoot extends ComponentDialog {
                 switch (stepContext.values.subMenu) {
                     case 0://1.数据库更新
                     return await stepContext.beginDialog(CN_DIALOG_ADMIN01);
-                    case 1://2.返回上一级菜单
+                    case 1://2.用户提问反馈
+                    return await stepContext.beginDialog(CN_DIALOG_ADMIN02);
+                    case 2://3.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
@@ -169,7 +178,7 @@ class CN_DialogRoot extends ComponentDialog {
             case 1://不满足期望
                 await stepContext.context.sendActivity(Hint.messageBadFeedback);
                 break;
-            case 2://数据库加载
+            case 2://管理员菜单，不做处理
                 break;
 
         }
