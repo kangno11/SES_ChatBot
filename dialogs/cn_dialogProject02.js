@@ -102,6 +102,7 @@ class CN_DialogProject02 extends ComponentDialog {
             else {
                 if (promptContext.state.attemptCount >= 3) {
                     await promptContext.context.sendActivity(Hint.messageOverTry);
+                    await promptContext.context.sendActivity(Hint.messageContactBranch);
                     promptContext.recognized.value = false; //没有找到
                     return true;
                 }

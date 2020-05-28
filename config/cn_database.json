@@ -33,8 +33,12 @@
         "csv":"cnDB_Project02_Order.csv",
         "db":"cnDB_Project02.json",
         "id":"Project02"
+    },
+    "Project03":
+    {
+        "csv":"cnDB_Project03_VO.csv",
+        "db":"cnDB_Project03.json",
+        "id":"Project03"
     }
-
     
-
 }

@@ -23,18 +23,18 @@ var _ = require('lodash');
 var ACData = require("adaptivecards-templating");
 
 
-const CN_DIALOG_PROJECT01 = 'CN_DIALOG_PROJECT01';//国内询价项目
+const CN_DIALOG_PROJECT03 = 'CN_DIALOG_PROJECT03';//VO项目
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
-const PROMPT_TEXT_CSC = 'PROMPT_TEXT_CSC';
+const PROMPT_TEXT_PROJECT = 'PROMPT_TEXT_PROJECT';
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
-class CN_DialogProject01 extends ComponentDialog {
+class CN_DialogProject03 extends ComponentDialog {
     constructor(logger) {
-        super(CN_DIALOG_PROJECT01);
+        super(CN_DIALOG_PROJECT03);
         this.logger = logger;
 
-        this.addDialog(new TextPrompt(PROMPT_TEXT_CSC, this.cscPromptValidator));
+        this.addDialog(new TextPrompt(PROMPT_TEXT_PROJECT, this.projectPromptValidator));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryDatabaseStep.bind(this),
@@ -45,14 +45,14 @@ class CN_DialogProject01 extends ComponentDialog {
         this.initialDialogId = DIALOG_WATERFALL;
     }
     async queryDatabaseStep(stepContext) {
-        return await stepContext.prompt(PROMPT_TEXT_CSC, {
-            prompt: Hint.Project01_SelectCSC
+        return await stepContext.prompt(PROMPT_TEXT_PROJECT, {
+            prompt: Hint.Project03_SelectProject
         });
     }
     async queryDisplayStep(stepContext) {
         if (stepContext.result) {
             var d = stepContext.result;
-            var template = new ACData.Template(Card.Project01_AdaptiveCSC);
+            var template = new ACData.Template(Card.Project03_AdaptiveProject);
             var card = template.expand({ $root: d });
             await stepContext.context.sendActivity(
                 {
@@ -77,20 +77,20 @@ class CN_DialogProject01 extends ComponentDialog {
 
 
 
-    async cscPromptValidator(promptContext) {
+    async projectPromptValidator(promptContext) {
         if (promptContext.recognized.succeeded) {
 
             var k = promptContext.recognized.value;
             k = _.trim(k);
             if (_.size(k) < 7) {
-                await promptContext.context.sendActivity(Hint.Project01_ValidCSC);
+                await promptContext.context.sendActivity(Hint.Project03_ValidProject);
                 return false;
             }
-            var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Project01.db));
+            var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Project03.db));
             var lowdb = low(adapter);
             var d = lowdb.get('db')
                 .find(function (o) {
-                    return (_.includes(_.toUpper(o.csc_id), _.toUpper(k)));
+                    return (_.includes(_.toUpper(o.project_number), _.toUpper(k)));
                 })
                 .value();
             if (d) {
@@ -113,5 +113,5 @@ class CN_DialogProject01 extends ComponentDialog {
         }
     }
 }
-module.exports.CN_DialogProject01 = CN_DialogProject01;
-module.exports.CN_DIALOG_PROJECT01 = CN_DIALOG_PROJECT01;
+module.exports.CN_DialogProject03 = CN_DialogProject03;
+module.exports.CN_DIALOG_PROJECT03 = CN_DIALOG_PROJECT03;

@@ -363,5 +363,65 @@
         "spacing": "Medium"
       }
     ]
+  },
+  "Project03_AdaptiveProject": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "VO项目",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "合同号：${project_number}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "项目名称：${project_name}",
+        "separator": true,
+        "wrap":true
+      },
+      {
+        "type": "TextBlock",
+        "text": "所属分公司：${fl_code}",
+        "spacing": "none",
+        "wrap": true
+      },
+      {
+        "type": "TextBlock",
+        "text": "客服工程师：${ss_engineer}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "项目接收时间：${fl_sending_date}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "预计完成时间:${estimated_finish_date}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "项目当前状态：${status}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
   }
 }

@@ -21,6 +21,8 @@ const { CN_DialogProject01,
     CN_DIALOG_PROJECT01 } = require('./cn_dialogProject01');
 const { CN_DialogProject02,
     CN_DIALOG_PROJECT02 } = require('./cn_dialogProject02');
+const { CN_DialogProject03,
+    CN_DIALOG_PROJECT03 } = require('./cn_dialogProject03');
 const { CN_DialogAdmin01,
     CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_DialogAdmin02,
@@ -52,6 +54,7 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogContact03(this.logger));
         this.addDialog(new CN_DialogProject01(this.logger));
         this.addDialog(new CN_DialogProject02(this.logger));
+        this.addDialog(new CN_DialogProject03(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
@@ -149,7 +152,7 @@ class CN_DialogRoot extends ComponentDialog {
                     case 1://2.国内排产项目
                         return await stepContext.beginDialog(CN_DIALOG_PROJECT02);
                     case 2://5.VO项目
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_PROJECT03);
                     case 3://6.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
