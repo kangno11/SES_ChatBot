@@ -1,4 +1,22 @@
 {
+  "Admin01_AdaptiveAttachment": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "Container",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "${message}",
+            "spacing": "none",
+            "wrap": true
+          }
+        ]
+      }
+    ]
+  },
   "Contact01_AdaptiveBranch": {
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0",
@@ -236,17 +254,19 @@
       },
       {
         "type": "Container",
-        "$data":"${qa}",
+        "$data": "${qa}",
         "items": [
           {
             "type": "TextBlock",
             "text": "问题：${question}",
-            "separator": true
+            "separator": true,
+            "wrap": true
           },
           {
             "type": "TextBlock",
             "text": "答案：${answer}",
-            "spacing": "none"
+            "spacing": "none",
+            "wrap": true
           }
         ]
       },
@@ -281,7 +301,8 @@
       {
         "type": "TextBlock",
         "text": "项目名称：${project_name}",
-        "separator": true
+        "separator": true,
+        "wrap": true
       },
       {
         "type": "TextBlock",
