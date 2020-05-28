@@ -17,8 +17,10 @@ const { CN_DialogContact02,
     CN_DIALOG_CONTACT02 } = require('./cn_dialogContact02');
 const { CN_DialogContact03,
     CN_DIALOG_CONTACT03 } = require('./cn_dialogContact03');
-    const { CN_DialogProject01,
-        CN_DIALOG_PROJECT01 } = require('./cn_dialogProject01');
+const { CN_DialogProject01,
+    CN_DIALOG_PROJECT01 } = require('./cn_dialogProject01');
+const { CN_DialogProject02,
+    CN_DIALOG_PROJECT02 } = require('./cn_dialogProject02');
 const { CN_DialogAdmin01,
     CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_DialogAdmin02,
@@ -49,6 +51,7 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogContact02(this.logger));
         this.addDialog(new CN_DialogContact03(this.logger));
         this.addDialog(new CN_DialogProject01(this.logger));
+        this.addDialog(new CN_DialogProject02(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
@@ -142,9 +145,9 @@ class CN_DialogRoot extends ComponentDialog {
             case 1://2,项目状态查询
                 switch (stepContext.values.subMenu) {
                     case 0://1.国内询价项目
-                    return await stepContext.beginDialog(CN_DIALOG_PROJECT01);
+                        return await stepContext.beginDialog(CN_DIALOG_PROJECT01);
                     case 1://2.国内排产项目
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_PROJECT02);
                     case 2://5.VO项目
                         break;
                     case 3://6.返回上一级菜单

@@ -120,6 +120,18 @@ class CN_DialogAdmin01 extends ComponentDialog {
                             });
                         }
                         break;
+                    case 'Project02':
+                        var projectindex = _.findIndex(db, { project_number: line[3] });
+                        if (projectindex === -1) {
+                            db = _.concat(db, {
+                                project_number: line[3],
+                                ss_engineer: line[0],
+                                fl_code: line[1],
+                                status: line[8],
+                                fl_sending_date: line[9]
+                            });
+                        }
+                        break;
 
                 }
 

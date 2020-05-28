@@ -27,6 +27,12 @@
         "csv":"cnDB_Project01_Tender.csv",
         "db":"cnDB_Project01.json",
         "id":"Project01"
+    },
+    "Project02":
+    {
+        "csv":"cnDB_Project02_Order.csv",
+        "db":"cnDB_Project02.json",
+        "id":"Project02"
     }
 
     
