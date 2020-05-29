@@ -89,12 +89,12 @@ class CN_DialogProject01 extends ComponentDialog {
             var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Project01.db));
             var lowdb = low(adapter);
             var d = lowdb.get('db')
-                .find(function (o) {
+                .filter(function (o) {
                     return (_.includes(_.toUpper(o.csc_id), _.toUpper(k)));
                 })
                 .value();
-            if (d) {
-                promptContext.recognized.value = d;
+            if (_.size(d)>0) {
+                promptContext.recognized.value = {"data":d};
                 promptContext.recognized.value.lastrefreshdate = lowdb.get("lastRefresh.date").value();
                 promptContext.recognized.value.lastrefreshtime = lowdb.get("lastRefresh.time").value();
                 return true;

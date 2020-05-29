@@ -272,39 +272,48 @@
         "weight": "bolder",
         "size": "large",
         "color": "Accent"
-      },
-      {
-        "type": "TextBlock",
-        "text": "CSC号：${csc_id}",
-        "weight": "bolder",
-        "isSubtle": false,
-        "spacing": "Large"
-      },
-      {
-        "type": "TextBlock",
-        "text": "项目名称：${project_name}",
-        "separator": true,
-        "wrap": true
-      },
-      {
-        "type": "TextBlock",
-        "text": "客服工程师：${kss_name}",
-        "spacing": "none"
-      },
-      {
-        "type": "TextBlock",
-        "text": "邮箱：${kss_engineer}",
-        "spacing": "none"
-      },
-      {
-        "type": "TextBlock",
-        "text": "项目接收时间：${fl_sending_date}",
-        "spacing": "none"
-      },
-      {
-        "type": "TextBlock",
-        "text": "预计完成时间：${kss_estimated_date}",
-        "spacing": "none"
+      },{
+      "type": "Container",
+        "$data": "${data}",
+        "items": [{
+          "type": "TextBlock",
+          "text": "CSC号：${csc_id}",
+          "weight": "bolder",
+          "isSubtle": false,
+          "spacing": "Large"
+        },
+        {
+          "type": "TextBlock",
+          "text": "NPS Version：${nps_version}",
+          "separator": true,
+          "wrap": true
+        },
+        {
+          "type": "TextBlock",
+          "text": "项目名称：${project_name}",
+          "wrap": true,
+          "spacing": "none"
+        },
+        {
+          "type": "TextBlock",
+          "text": "客服工程师：${kss_name}",
+          "spacing": "none"
+        },
+        {
+          "type": "TextBlock",
+          "text": "邮箱：${kss_engineer}",
+          "spacing": "none"
+        },
+        {
+          "type": "TextBlock",
+          "text": "项目接收时间：${fl_sending_date}",
+          "spacing": "none"
+        },
+        {
+          "type": "TextBlock",
+          "text": "预计完成时间：${kss_estimated_date}",
+          "spacing": "none"
+        }]
       },
       {
         "type": "TextBlock",

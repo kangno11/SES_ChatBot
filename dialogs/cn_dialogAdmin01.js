@@ -108,10 +108,11 @@ class CN_DialogAdmin01 extends ComponentDialog {
                             );
                             break;
                         case 'Project01':
-                            var cscindex = _.findIndex(db, { csc_id: line[1] });
+                            var cscindex = _.findIndex(db, { csc_id: line[1],nps_version:line[2] });
                             if (cscindex === -1) {
                                 db = _.concat(db, {
                                     csc_id: line[1],
+                                    nps_version:line[2],
                                     kss_engineer: line[7],
                                     project_name: line[10],
                                     kss_name: line[54],
