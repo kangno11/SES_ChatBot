@@ -82,7 +82,7 @@ server.post('/api/cn', (req, res) => {
 
 server.get('/', (req, res,next) => {
     var d = new Date();
-    res.send('The site is running, today is: '+ d.toLocaleDateString() + ' time is:' + d.toLocaleTimeString());
+    res.send('The site is running, today a is: '+ d.toLocaleDateString() + ' time is:' + d.toLocaleTimeString());
     return next();
 
 });
