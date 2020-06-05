@@ -79,3 +79,10 @@ server.post('/api/cn', (req, res) => {
         await cn_botSES.run(context);
     });
 });
+
+server.get('/', (req, res,next) => {
+    var d = new Date();
+    res.send('The site is running, today is: '+ d.toLocaleDateString() + ' time is:' + d.toLocaleTimeString());
+    return next();
+
+});
