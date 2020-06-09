@@ -21,10 +21,5 @@
         "lowdb": "^1.0.0",
         "restify": "~8.4.0",
         "sync-request": "^6.1.0"
-    },
-    "devDependencies": {
-        "gulp": "^4.0.2",
-        "ngrok": "^3.2.7",
-        "nodemon": "~1.19.4"
     }
 }
