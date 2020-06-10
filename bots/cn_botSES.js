@@ -37,6 +37,9 @@ class CN_BotSES extends TeamsActivityHandler {
             if (context.activity.type === "message" && context.activity.text === Hint.shortcutMainMenu) {
                 await this.conversationState.clear(context);
             }
+            if (context.activity.type === "message" && context.activity.text === Hint.shortcutBackMenu) {
+                //await this.conversationState.clear(context);
+            }
             // Run the Dialog with the new message Activity.
             await this.dialog.run(context, this.conversationDialogAccessor);
 

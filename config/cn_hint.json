@@ -28,6 +28,7 @@
     "messageDownloadAttachment":"请点击以下附件并下载！",
     "messageContactBranch":"请联系对应分公司客服工程师。",
     "shortcutMainMenu":"m",
+    "shortcutBackMenu":"b",
     "Contact01_SelectRegion":"请选择区域。",
     "Contact01_SelectBranch":"请输入分公司代码或名称查询（如：KCC-01、南京、NanJing）。",
     "Contact01_ValidBranch":"请至少输入两位字符！请再次输入...",
