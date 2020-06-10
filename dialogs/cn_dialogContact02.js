@@ -28,6 +28,7 @@ const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_QUERYMODE = 'PROMPT_CHOICE_QUERYMODE';
 const PROMPT_TEXT_BRANCH = 'PROMPT_TEXT_BRANCH';
 const PROMPT_CHOICE_REGION = 'PROMPT_CHOICE_REGION';
+const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
@@ -40,11 +41,13 @@ class CN_DialogContact02 extends ComponentDialog {
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYMODE));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_REGION, this.regionPromptValidator));
         this.addDialog(new TextPrompt(PROMPT_TEXT_BRANCH, this.branchPromptValidator));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryModeStep.bind(this),
             this.queryDatabaseStep.bind(this),
             this.queryDisplayStep.bind(this),
+            this.queryAgainStep.bind(this),
             this.queryConfirmationStep.bind(this)
         ]));
 
@@ -101,12 +104,25 @@ class CN_DialogContact02 extends ComponentDialog {
         }
 
 
-        return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+        return await stepContext.prompt(PROMPT_CHOICE_QUERYAGAIN,
             {
-                prompt: Hint.promptFeedback,
-                choices: Menu.feedbackMenu
+                prompt: Hint.promptQueryAgain,
+                choices: Menu.queryAgainMenu
             }
         );
+    }
+    async queryAgainStep(stepContext) {
+        switch (stepContext.result.index) {
+            case 0:
+                return await stepContext.replaceDialog(this.initialDialogId);
+            case 1:
+                return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+                    {
+                        prompt: Hint.promptFeedback,
+                        choices: Menu.feedbackMenu
+                    }
+                );
+        }
     }
     async queryConfirmationStep(stepContext) {
         //console.log(stepContext.result);

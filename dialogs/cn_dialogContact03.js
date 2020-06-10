@@ -30,6 +30,7 @@ const PROMPT_TEXT_BRANCH = 'PROMPT_TEXT_BRANCH';
 const PROMPT_CHOICE_REGION = 'PROMPT_CHOICE_REGION';
 const PROMPT_TEXT_QUERY = 'PROMPT_TEXT_QUERY';
 const PROMPT_TEXT_QUESTION = 'PROMPT_TEXT_QUESTION';
+const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
@@ -39,11 +40,13 @@ class CN_DialogContact03 extends ComponentDialog {
         this.logger = logger;
 
         this.addDialog(new TextPrompt(PROMPT_TEXT_QUERY, this.queryPromptValidator));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new TextPrompt(PROMPT_TEXT_QUESTION, this.questionPromptValidator));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryDatabaseStep.bind(this),
             this.queryDisplayStep.bind(this),
+            this.queryAgainStep.bind(this),
             this.queryConfirmationStep.bind(this),
             this.queryRecordStep.bind(this)
         ]));
@@ -91,17 +94,32 @@ class CN_DialogContact03 extends ComponentDialog {
                 {
                     attachments: [CardFactory.adaptiveCard(card)]
                 });
-            return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+            return await stepContext.prompt(PROMPT_CHOICE_QUERYAGAIN,
                 {
-                    prompt: Hint.promptFeedback,
-                    choices: Menu.feedbackMenu
+                    prompt: Hint.promptQueryAgain,
+                    choices: Menu.queryAgainMenu
                 }
             );
         }
         else {
-            return await stepContext.next({ index: 1 });
+            return await stepContext.next({ index: 2 }); //no result
         }
 
+    }
+    async queryAgainStep(stepContext) {
+        switch (stepContext.result.index) {
+            case 0:
+                return await stepContext.replaceDialog(this.initialDialogId);
+            case 1:
+                return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+                    {
+                        prompt: Hint.promptFeedback,
+                        choices: Menu.feedbackMenu
+                    }
+                );
+            case 2:
+                return await stepContext.next({ index: 2 });//no result
+        }
     }
     async queryConfirmationStep(stepContext) {
         //stepContext.values.queryConfirmationResult = stepContext.result
@@ -109,10 +127,10 @@ class CN_DialogContact03 extends ComponentDialog {
         if (stepContext.result.index === 0) {
             return await stepContext.endDialog({ index: 0 })
         }
-        else {
+        else { // not statisfied or no result
             return await stepContext.prompt(PROMPT_TEXT_QUESTION, {
-                prompt: Hint.promptQuestion,
-                retryPrompt: Hint.retryQuestion,
+                prompt: Hint.Contact03_promptQuestion,
+                retryPrompt: Hint.Contact03_retryQuestion,
             });
         }
 
@@ -170,15 +188,15 @@ class CN_DialogContact03 extends ComponentDialog {
                 var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Admin02.db));
                 var lowdb = low(adapter);
                 var d = new Date();
-                lowdb.defaults({ questions: [],lastExtract:{}, countExtract:0 })
+                lowdb.defaults({ questions: [], lastExtract: {}, countExtract: 0 })
                     .write();
                 var question = {
-                    "user":promptContext.context.activity.from.name,
-                    "date":d.toLocaleDateString(),
-                    "time":d.toLocaleTimeString(),
-                    "question":k,
-                    "id":"Contact03",
-                    "desc":"特殊流程联系人"
+                    "user": promptContext.context.activity.from.name,
+                    "date": d.toLocaleDateString(),
+                    "time": d.toLocaleTimeString(),
+                    "question": k,
+                    "id": "Contact03",
+                    "desc": "特殊流程联系人"
                 };
                 lowdb.get('questions')
                     .push(question)

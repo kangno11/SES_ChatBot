@@ -26,6 +26,8 @@ var ACData = require("adaptivecards-templating");
 const CN_DIALOG_PROJECT02 = 'CN_DIALOG_PROJECT02';//国内排产项目
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_TEXT_PROJECT = 'PROMPT_TEXT_PROJECT';
+const PROMPT_TEXT_QUESTION = 'PROMPT_TEXT_QUESTION';
+const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
@@ -35,11 +37,15 @@ class CN_DialogProject02 extends ComponentDialog {
         this.logger = logger;
 
         this.addDialog(new TextPrompt(PROMPT_TEXT_PROJECT, this.projectPromptValidator));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
+        this.addDialog(new TextPrompt(PROMPT_TEXT_QUESTION, this.questionPromptValidator));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryDatabaseStep.bind(this),
             this.queryDisplayStep.bind(this),
-            this.queryConfirmationStep.bind(this)
+            this.queryAgainStep.bind(this),
+            this.queryConfirmationStep.bind(this),
+            this.queryRecordStep.bind(this)
         ]));
 
         this.initialDialogId = DIALOG_WATERFALL;
@@ -58,20 +64,47 @@ class CN_DialogProject02 extends ComponentDialog {
                 {
                     attachments: [CardFactory.adaptiveCard(card)]
                 });
-            return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+            return await stepContext.prompt(PROMPT_CHOICE_QUERYAGAIN,
                 {
-                    prompt: Hint.promptFeedback,
-                    choices: Menu.feedbackMenu
+                    prompt: Hint.promptQueryAgain,
+                    choices: Menu.queryAgainMenu
                 }
             );
         }
         else {
-            return await stepContext.endDialog({ index: 1 });
+            return await stepContext.next({ index: 2 });
         }
 
     }
+    async queryAgainStep(stepContext) {
+        switch (stepContext.result.index) {
+            case 0:
+                return await stepContext.replaceDialog(this.initialDialogId);
+            case 1:
+                return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+                    {
+                        prompt: Hint.promptFeedback,
+                        choices: Menu.feedbackMenu
+                    }
+                );
+            case 2:
+                return await stepContext.next({ index: 2 });//no result
+        }
+    }
     async queryConfirmationStep(stepContext) {
-        return await stepContext.endDialog(stepContext.result)
+        if (stepContext.result.index === 0) {
+            return await stepContext.endDialog({ index: 0 })
+        }
+        else { // not statisfied or no result
+            return await stepContext.prompt(PROMPT_TEXT_QUESTION, {
+                prompt: Hint.Project02_promptQuestion,
+                retryPrompt: Hint.Project02_retryQuestion,
+            });
+        }
+    }
+    async queryRecordStep(stepContext) {
+        await stepContext.context.sendActivity(Hint.messageQuestionRecord);
+        return await stepContext.endDialog({ index: 1 });
     }
 
 
@@ -110,6 +143,33 @@ class CN_DialogProject02 extends ComponentDialog {
                     await promptContext.context.sendActivity(Hint.messageQueryFailure);
                 }
             }
+        }
+    }
+    async questionPromptValidator(promptContext) {
+        if (promptContext.recognized.succeeded) {
+            var k = promptContext.recognized.value;
+            k = _.trim(k);
+            if (_.size(k) >= 7) {
+                //保存问题到问题数据库
+                var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Admin02.db));
+                var lowdb = low(adapter);
+                var d = new Date();
+                lowdb.defaults({ questions: [], lastExtract: {}, countExtract: 0 })
+                    .write();
+                var question = {
+                    "user": promptContext.context.activity.from.name,
+                    "date": d.toLocaleDateString(),
+                    "time": d.toLocaleTimeString(),
+                    "question": k,
+                    "id": "Project02",
+                    "desc": "国内排产项目"
+                };
+                lowdb.get('questions')
+                    .push(question)
+                    .write();
+                return true;
+            }
+
         }
     }
 }

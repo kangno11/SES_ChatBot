@@ -26,6 +26,7 @@ var _ = require('lodash');
 const CN_DIALOG_ADMIN02 = 'CN_DIALOG_ADMIN02';//Tender&VO业务客服联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_CATEGORY = 'PROMPT_CHOICE_CATEGORY';
+const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 
 
 class CN_DialogAdmin02 extends ComponentDialog {
@@ -33,11 +34,13 @@ class CN_DialogAdmin02 extends ComponentDialog {
         super(CN_DIALOG_ADMIN02);
         this.logger = logger;
 
-
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_CATEGORY, this.categoryPromptValidator));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.categoryStep.bind(this),
-            this.extractDBStep.bind(this)
+            this.extractDBStep.bind(this),
+            this.queryAgainStep.bind(this),
+
         ]));
 
         this.initialDialogId = DIALOG_WATERFALL;
@@ -84,7 +87,21 @@ class CN_DialogAdmin02 extends ComponentDialog {
 
         await stepContext.context.sendActivity(txt);
         await stepContext.context.sendActivity(Hint.messageExtractDBSuccess);
-        return await stepContext.endDialog({ index: 2 });
+        return await stepContext.prompt(PROMPT_CHOICE_QUERYAGAIN,
+            {
+                prompt: Hint.promptQueryAgain,
+                choices: Menu.queryAgainMenu
+            }
+        );
+        
+    }
+    async queryAgainStep(stepContext) {
+        switch (stepContext.result.index) {
+            case 0:
+                return await stepContext.replaceDialog(this.initialDialogId);
+            case 1:
+                return await stepContext.endDialog({ index: 2 });
+        }
     }
 
     async categoryPromptValidator(promptContext) {

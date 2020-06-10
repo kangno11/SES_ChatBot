@@ -27,6 +27,7 @@ const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_CHOICE_QUERYMODE = 'PROMPT_CHOICE_QUERYMODE';
 const PROMPT_TEXT_BRANCH = 'PROMPT_TEXT_BRANCH';
 const PROMPT_CHOICE_REGION = 'PROMPT_CHOICE_REGION';
+const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
@@ -39,11 +40,13 @@ class CN_DialogContact01 extends ComponentDialog {
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYMODE));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_REGION, this.regionPromptValidator));
         this.addDialog(new TextPrompt(PROMPT_TEXT_BRANCH, this.branchPromptValidator));
+        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryModeStep.bind(this),
             this.queryDatabaseStep.bind(this),
             this.queryDisplayStep.bind(this),
+            this.queryAgainStep.bind(this),
             this.queryConfirmationStep.bind(this)
         ]));
 
@@ -61,8 +64,8 @@ class CN_DialogContact01 extends ComponentDialog {
         stepContext.values.queryMode = stepContext.result;
         switch (stepContext.result.index) {
             case 0: //查询区域主管
-            var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
-            var lowdb = low(adapter);
+                var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Contact01.db));
+                var lowdb = low(adapter);
                 return await stepContext.prompt(PROMPT_CHOICE_REGION, {
                     prompt: Hint.Contact01_SelectRegion,
                     retryPrompt: Hint.retryChoice,
@@ -79,8 +82,8 @@ class CN_DialogContact01 extends ComponentDialog {
         switch (stepContext.values.queryMode.index) {
             case 0://查询区域主管
                 var d = stepContext.result;
-                var template  = new ACData.Template(Card.Contact01_AdaptiveRegion);
-                var card = template.expand({$root:d});
+                var template = new ACData.Template(Card.Contact01_AdaptiveRegion);
+                var card = template.expand({ $root: d });
                 await stepContext.context.sendActivity(
                     {
                         attachments: [CardFactory.adaptiveCard(card)]
@@ -88,8 +91,8 @@ class CN_DialogContact01 extends ComponentDialog {
                 break;
             case 1://查询分公司工程师
                 var d = stepContext.result;
-                var template  = new ACData.Template(Card.Contact01_AdaptiveBranch);
-                var card = template.expand({$root:d});
+                var template = new ACData.Template(Card.Contact01_AdaptiveBranch);
+                var card = template.expand({ $root: d });
                 await stepContext.context.sendActivity(
                     {
                         attachments: [CardFactory.adaptiveCard(card)]
@@ -98,12 +101,25 @@ class CN_DialogContact01 extends ComponentDialog {
         }
 
 
-        return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+        return await stepContext.prompt(PROMPT_CHOICE_QUERYAGAIN,
             {
-                prompt: Hint.promptFeedback,
-                choices: Menu.feedbackMenu
+                prompt: Hint.promptQueryAgain,
+                choices: Menu.queryAgainMenu
             }
         );
+    }
+    async queryAgainStep(stepContext) {
+        switch (stepContext.result.index) {
+            case 0:
+                return await stepContext.replaceDialog(this.initialDialogId);
+            case 1:
+                return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
+                    {
+                        prompt: Hint.promptFeedback,
+                        choices: Menu.feedbackMenu
+                    }
+                );
+        }
     }
     async queryConfirmationStep(stepContext) {
         //console.log(stepContext.result);
@@ -121,7 +137,7 @@ class CN_DialogContact01 extends ComponentDialog {
                 await promptContext.context.sendActivity(Hint.Contact01_ValidBranch);
                 return false;
             }
-            var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
+            var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Contact01.db));
             var lowdb = low(adapter);
             var d = lowdb.get('db')
                 .map("branches")
@@ -145,7 +161,7 @@ class CN_DialogContact01 extends ComponentDialog {
     async regionPromptValidator(promptContext) {
         if (promptContext.recognized.succeeded) {
             var k = promptContext.recognized.value.value;
-            var adapter = new FileSync(path.resolve(__dirname, "../db/"+Database.Contact01.db));
+            var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Contact01.db));
             var lowdb = low(adapter);
             var d = lowdb.get('db').find({ region: k }).value();
             if (d) {
