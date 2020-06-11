@@ -1,6 +1,7 @@
 {
     "welcome":"我是SES人工聊天机器人。请尝试着和我说 “hi”来开始我们的聊天吧！",
     "goodbye":"本次对话结束,祝您工作顺利！再见！",
+    "error":"机器人暂时遇到点小问题，您输入‘hi’可以重新和我聊天",
     "promptLanguage":"请选择工作语言。",
     "promptMainMenu":"请选择主菜单。",
     "promptSubMenu":"请选择二级子菜单。",
