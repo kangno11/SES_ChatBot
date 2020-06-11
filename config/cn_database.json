@@ -1,4 +1,9 @@
 {
+    "Admin03":{
+        "attachment":"Statistics_",
+        "db":"cnDB_Admin03.json",
+        "id":"Admin03"
+    },    
     "Admin02":{
         "attachment":"Questions_",
         "db":"cnDB_Admin02.json",
