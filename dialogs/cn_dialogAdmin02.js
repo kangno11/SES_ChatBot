@@ -112,13 +112,13 @@ class CN_DialogAdmin02 extends ComponentDialog {
                 path.resolve(__dirname, "../db/" + Database.Admin02.db));
             var lowdb = low(adapter);
             var txtFile = Database.Admin02.attachment + category + ".txt";
-            var txtData = 'id\tdesc\tuser\tdate\ttime\tquestion\n';
+            var txtData = 'id\tdesc\tuser\tdate\ttime\tquestion\r\n';
             _.forEach(lowdb.get('questions')
                 .filter(function (o) {
                     return _.isEqual(o.desc, category);
                 })
                 .value(), function (value) {
-                    txtData += `${value.id}\t${value.desc}\t${value.user}\t${value.date}\t${value.time}\t${value.question}\n`;
+                    txtData += `${value.id}\t${value.desc}\t${value.user}\t${value.date}\t${value.time}\t${value.question}\r\n`;
                 });
             fs.writeFileSync(path.join(__dirname, '../attachment/' + txtFile), txtData);
             promptContext.recognized.value = txtFile;
