@@ -27,6 +27,8 @@ const { CN_DialogProject02,
     CN_DIALOG_PROJECT02 } = require('./cn_dialogProject02');
 const { CN_DialogProject03,
     CN_DIALOG_PROJECT03 } = require('./cn_dialogProject03');
+const { CN_DialogPrice01,
+    CN_DIALOG_PRICE01 } = require('./cn_dialogPrice01');
 const { CN_DialogAdmin01,
     CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_DialogAdmin02,
@@ -59,6 +61,7 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogProject01(this.logger));
         this.addDialog(new CN_DialogProject02(this.logger));
         this.addDialog(new CN_DialogProject03(this.logger));
+        this.addDialog(new CN_DialogPrice01(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
@@ -86,11 +89,11 @@ class CN_DialogRoot extends ComponentDialog {
                 .update('good', n => n + 1)
                 .write();
         }
-        else{
+        else {
             lowdb.get(mth)
-            .get(menu)
-            .update('bad', n => n + 1)
-            .write();
+                .get(menu)
+                .update('bad', n => n + 1)
+                .write();
         }
     }
     async countMenuEntry(menu) {
@@ -176,7 +179,13 @@ class CN_DialogRoot extends ComponentDialog {
                     retryPrompt: Hint.retryChoice,
                     choices: Menu.subMenu2
                 });
-            case 2: //X,管理员入口
+            case 2: //3,价格查询
+                return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
+                    prompt: Hint.promptSubMenu,
+                    retryPrompt: Hint.retryChoice,
+                    choices: Menu.subMenu3
+                });
+            case 3: //X,管理员入口
                 return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
                     prompt: Hint.promptSubMenu,
                     retryPrompt: Hint.retryChoice,
@@ -230,7 +239,17 @@ class CN_DialogRoot extends ComponentDialog {
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
-            case 2://X,管理员入口
+            case 2://3，价格查询
+                switch (stepContext.values.subMenu) {
+                    case 0://1.Open Offer 价格查询
+                        stepContext.values.idMenu = "Price01";
+                        await this.countMenuEntry('Price01');
+                        return await stepContext.beginDialog(CN_DIALOG_PRICE01);
+                    case 1://6.返回上一级菜单
+                        return await stepContext.replaceDialog(CN_DIALOG_ROOT);
+                }
+                break;
+            case 3://X,管理员入口
                 switch (stepContext.values.subMenu) {
                     case 0://1.数据库更新
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN01);

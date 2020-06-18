@@ -108,11 +108,11 @@ class CN_DialogAdmin01 extends ComponentDialog {
                             );
                             break;
                         case 'Project01':
-                            var cscindex = _.findIndex(db, { csc_id: line[1],nps_version:line[2] });
+                            var cscindex = _.findIndex(db, { csc_id: line[1], nps_version: line[2] });
                             if (cscindex === -1) {
                                 db = _.concat(db, {
                                     csc_id: line[1],
-                                    nps_version:line[2],
+                                    nps_version: line[2],
                                     kss_engineer: line[7],
                                     project_name: line[10],
                                     kss_name: line[54],
@@ -140,14 +140,24 @@ class CN_DialogAdmin01 extends ComponentDialog {
                                     project_number: line[3],
                                     ss_engineer: line[0],
                                     fl_code: line[1],
-                                    project_name:line[4],
+                                    project_name: line[4],
                                     status: line[9],
                                     fl_sending_date: line[10],
-                                    estimated_finish_date:line[14]
+                                    estimated_finish_date: line[14]
                                 });
                             }
                             break;
-
+                        case 'Price01':
+                            db = _.concat(db, {
+                                document_name: line[1],
+                                document_version: line[2],
+                                document_number: line[3],
+                                release_date : line[4],
+                                dl_version: line[5],
+                                link:line[6]
+                            }
+                            );
+                            break;
                     }
 
                 }))

@@ -44,6 +44,11 @@
         "csv":"cnDB_Project03_VO.csv",
         "db":"cnDB_Project03.json",
         "id":"Project03"
+    },
+    "Price01":
+    {
+        "csv":"cnDB_Price01_OpenOffer.csv",
+        "db":"cnDB_Price01.json",
+        "id":"Price01"
     }
-    
 }

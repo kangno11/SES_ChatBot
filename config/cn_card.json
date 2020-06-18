@@ -432,5 +432,61 @@
         "spacing": "Medium"
       }
     ]
+  },
+  "Price01_AdaptiveDocument": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "Open Offer 非标价格",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "文档编号：${document_number}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "TextBlock",
+        "text": "文档名称：${document_name}",
+        "separator": true,
+        "wrap":true
+      },
+      {
+        "type": "TextBlock",
+        "text": "文档版本：${document_version}",
+        "spacing": "none",
+        "wrap": true
+      },
+      {
+        "type": "TextBlock",
+        "text": "适用DL版本：${dl_version}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "Release日期：${release_date}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "文件链接：${link}",
+        "spacing": "none"
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
   }
+  
 }
