@@ -21,6 +21,7 @@
     "messageLoadDBRetry":"没有符合预设的csv文件，请再次上传！",
     "messageLoadDBSuccess":"符合预设的csv文件加载成功！",
     "messageExtractDBSuccess":"数据库导出成功，相关数据在服务端清除！",
+    "messageExtractDBOnly":"数据库导出成功！",
     "messageLoadDBInProgress":"后台正在处理数据加载，稍后会通知您结果！",
     "messageQueryFailure":"没有找到相关的记录，请再一次查询！",
     "messageOverTry":"您已尝试三次查询，看来数据库中目前没有相关的记录。",
