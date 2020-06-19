@@ -476,15 +476,17 @@
       },
       {
         "type": "TextBlock",
-        "text": "文件链接：${link}",
-        "spacing": "none"
-      },
-      {
-        "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
         "size": "small",
         "spacing": "Medium"
+      }
+    ],
+    "actions":[
+      {
+        "type": "Action.OpenUrl",
+        "title": "点击打开文件链接",
+        "url": "${link}"
       }
     ]
   }
