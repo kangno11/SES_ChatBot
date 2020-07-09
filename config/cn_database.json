@@ -49,6 +49,7 @@
     {
         "csv":"cnDB_Price01_OpenOffer.csv",
         "db":"cnDB_Price01.json",
-        "id":"Price01"
+        "id":"Price01",
+        "attachment":true
     }
 }

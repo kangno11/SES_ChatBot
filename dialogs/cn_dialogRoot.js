@@ -35,6 +35,8 @@ const { CN_DialogAdmin02,
     CN_DIALOG_ADMIN02 } = require('./cn_dialogAdmin02');
 const { CN_DialogAdmin03,
     CN_DIALOG_ADMIN03 } = require('./cn_dialogAdmin03');
+const { CN_DialogAdmin04,
+    CN_DIALOG_ADMIN04 } = require('./cn_dialogAdmin04');
 const { CN_UserProfile } = require('../class/cn_userProfile');
 const Hint = require('../config/cn_hint.json');
 const Menu = require('../config/cn_menu.json');
@@ -67,6 +69,7 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new CN_DialogAdmin03(this.logger));
+        this.addDialog(new CN_DialogAdmin04(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             //this.languageStep.bind(this),
             this.mainMenuStep.bind(this),
@@ -258,9 +261,11 @@ class CN_DialogRoot extends ComponentDialog {
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN01);
                     case 1://2.用户提问反馈
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN02);
-                    case 2://2.用户提问反馈
+                    case 2://3.用户满意度统计下载
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN03);
-                    case 3://3.返回上一级菜单
+                    case 3://4.技术文档上传
+                        return await stepContext.beginDialog(CN_DIALOG_ADMIN04);
+                    case 4://5.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
