@@ -52,6 +52,7 @@ class CN_DialogAdmin03 extends ComponentDialog {
         var txtFile = Database.Admin03.attachment + new Date().toLocaleDateString() + ".txt";
         var txtData = 'year\tmonth\tdate\tmenu\tentry\tgood\tbad\r\n';
         _.forEach(lowdb.getState(), function (value1, key1) {
+            key1 = _.replace(key1,'/','-');
             var d = _.split(key1, '-');
             _.forEach(value1, function (value2, key2) {
                 txtData += `${d[0]}\t${d[1]}\t${key1}\t${key2}\t${value2.entry}\t${value2.good}\t${value2.bad}\r\n`;
