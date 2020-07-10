@@ -29,6 +29,7 @@ const PROMPT_TEXT_BRANCH = 'PROMPT_TEXT_BRANCH';
 const PROMPT_CHOICE_REGION = 'PROMPT_CHOICE_REGION';
 const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
+const PROMPT_TEXT_QUESTION = 'PROMPT_TEXT_QUESTION';
 //const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
 class CN_DialogContact01 extends ComponentDialog {
@@ -42,12 +43,14 @@ class CN_DialogContact01 extends ComponentDialog {
         this.addDialog(new TextPrompt(PROMPT_TEXT_BRANCH, this.branchPromptValidator));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
+        this.addDialog(new TextPrompt(PROMPT_TEXT_QUESTION, this.questionPromptValidator));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             this.queryModeStep.bind(this),
             this.queryDatabaseStep.bind(this),
             this.queryDisplayStep.bind(this),
             this.queryAgainStep.bind(this),
-            this.queryConfirmationStep.bind(this)
+            this.queryConfirmationStep.bind(this),
+            this.queryRecordStep.bind(this)
         ]));
 
         this.initialDialogId = DIALOG_WATERFALL;
@@ -123,8 +126,19 @@ class CN_DialogContact01 extends ComponentDialog {
     }
     async queryConfirmationStep(stepContext) {
         //console.log(stepContext.result);
-        return await stepContext.endDialog(stepContext.result);
-
+        if (stepContext.result.index === 0) {
+            return await stepContext.endDialog({ index: 0 })
+        }
+        else { // not statisfied or no result
+            return await stepContext.prompt(PROMPT_TEXT_QUESTION, {
+                prompt: Hint.Contact01_promptQuestion,
+                retryPrompt: Hint.Contact01_retryQuestion,
+            });
+        }
+    }
+    async queryRecordStep(stepContext) {
+        await stepContext.context.sendActivity(Hint.messageQuestionRecord);
+        return await stepContext.endDialog({ index: 1 });
     }
 
 
@@ -170,6 +184,33 @@ class CN_DialogContact01 extends ComponentDialog {
                 promptContext.recognized.value.lastrefreshtime = lowdb.get("lastRefresh.time").value();
                 return true;
             }
+        }
+    }
+    async questionPromptValidator(promptContext) {
+        if (promptContext.recognized.succeeded) {
+            var k = promptContext.recognized.value;
+            k = _.trim(k);
+            if (_.size(k) >= 5) {
+                //保存问题到问题数据库
+                var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Admin02.db));
+                var lowdb = low(adapter);
+                var d = new Date();
+                lowdb.defaults({ questions: [], lastExtract: {}, countExtract: 0 })
+                    .write();
+                var question = {
+                    "user": promptContext.context.activity.from.name,
+                    "date": d.toLocaleDateString(),
+                    "time": d.toLocaleTimeString(),
+                    "question": k,
+                    "id": "Contact01",
+                    "desc": "Tender&VO业务客服联系人"
+                };
+                lowdb.get('questions')
+                    .push(question)
+                    .write();
+                return true;
+            }
+
         }
     }
 }
