@@ -66,7 +66,7 @@ cn_adapter.onTurnError = async (context, error) => {
     //);
 
     // Send a message to the user
-    await context.sendActivity(`${context.activity.from.name}[onTurnError] unhandled error: ${error}`);
+    //await context.sendActivity(`${context.activity.from.name}[onTurnError] unhandled error: ${error}`);
     await context.sendActivity(Hint.error);
     // Clear out state
     await cn_conversationState.clear(context);

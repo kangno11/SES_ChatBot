@@ -42,7 +42,7 @@ class CN_BotSES extends TeamsActivityHandler {
                 await this.conversationState.clear(context);
                 await this.dialog.run(context, this.conversationDialogAccessor);
             }
-            if (context.activity.type === "message" && context.activity.text === Hint.shortcutLog) {
+            if (context.activity.type === "message" && context.activity.text === Hint.shortcutLog && context.activity.channelId !== "msteams") {
                 await this.conversationState.clear(context);
                 const txtFile = "cnBotSES.log";
                 const txtData = fs.readFileSync(path.join(__dirname, '../log/' + txtFile));
@@ -51,7 +51,7 @@ class CN_BotSES extends TeamsActivityHandler {
                     type: ActivityTypes.Message,
                     text: Hint.messageDownloadAttachment,
                     attachments: [{
-                        name: "cnBotSESLog.txt",
+                        name: txtFile,
                         contentType: 'text/csv',
                         contentUrl: `data:text/csv;base64,${base64TXT}`,
                     }]
