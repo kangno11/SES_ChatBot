@@ -42,6 +42,24 @@ class CN_BotSES extends TeamsActivityHandler {
                 await this.conversationState.clear(context);
                 await this.dialog.run(context, this.conversationDialogAccessor);
             }
+            if (context.activity.type === "message" && context.activity.text === Hint.shortcutLog) {
+                await this.conversationState.clear(context);
+                const txtFile = "cnBotSES.log";
+                const txtData = fs.readFileSync(path.join(__dirname, '../log/' + txtFile));
+                const base64TXT = Buffer.from(txtData).toString('base64');
+                var txt = {
+                    type: ActivityTypes.Message,
+                    text: Hint.messageDownloadAttachment,
+                    attachments: [{
+                        name: txtFile,
+                        contentType: 'text/csv',
+                        contentUrl: `data:text/csv;base64,${base64TXT}`,
+                    }]
+
+                };
+                await context.sendActivity(txt);
+                await context.sendActivity(Hint.goodbye);
+            }
             else if (context.activity.value) {
                 await this.conversationState.clear(context);
                 const txtFile = context.activity.value.attachment;
