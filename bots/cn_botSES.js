@@ -51,7 +51,7 @@ class CN_BotSES extends TeamsActivityHandler {
                     type: ActivityTypes.Message,
                     text: Hint.messageDownloadAttachment,
                     attachments: [{
-                        name: txtFile,
+                        name: "cnBotSESLog.txt",
                         contentType: 'text/csv',
                         contentUrl: `data:text/csv;base64,${base64TXT}`,
                     }]
