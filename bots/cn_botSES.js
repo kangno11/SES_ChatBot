@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler, TeamsActivityHandler } = require('botbuilder');
+const { ActivityHandler, TeamsActivityHandler,ActivityTypes } = require('botbuilder');
 const Hint = require('../config/cn_hint.json');
+const fs = require('fs');
+const path = require('path');
 
 //class BotSES extends ActivityHandler {
 class CN_BotSES extends TeamsActivityHandler {
@@ -26,9 +28,11 @@ class CN_BotSES extends TeamsActivityHandler {
         this.logger = logger;
 
         this.onMessage(async (context, next) => {
-            if (context.activity.attachments) { 
-                this.logger.debug(context.activity.from.name + '\t' + context.activity.attachments[0].contentType + '\t' +  context.activity.attachments[0].name);
-
+            if (context.activity.attachments) {
+                this.logger.debug(context.activity.from.name + '\t' + context.activity.attachments[0].contentType + '\t' + context.activity.attachments[0].name);
+            }
+            else if (context.activity.value) {
+                this.logger.debug(context.activity.from.name + '\t' + context.activity.value.attachment);
             }
             else {
                 this.logger.debug(context.activity.from.name + '\t' + context.activity.type + '\t' + context.activity.text);
@@ -36,14 +40,29 @@ class CN_BotSES extends TeamsActivityHandler {
 
             if (context.activity.type === "message" && context.activity.text === Hint.shortcutMainMenu) {
                 await this.conversationState.clear(context);
+                await this.dialog.run(context, this.conversationDialogAccessor);
             }
-            //if (context.activity.type === "message" && context.activity.text === Hint.shortcutBackMenu) {
-            //    await this.conversationState.clear(context);
-            //}
-            
-            // Run the Dialog with the new message Activity.
-            await this.dialog.run(context, this.conversationDialogAccessor);
+            else if (context.activity.value) {
+                await this.conversationState.clear(context);
+                const txtFile = context.activity.value.attachment;
+                const txtData = fs.readFileSync(path.join(__dirname, '../attachment/' + txtFile));
+                const base64TXT = Buffer.from(txtData).toString('base64');
+                var txt = {
+                    type: ActivityTypes.Message,
+                    text: Hint.messageDownloadAttachment,
+                    attachments: [{
+                        name: txtFile,
+                        contentType: 'text/csv',
+                        contentUrl: `data:text/csv;base64,${base64TXT}`,
+                    }]
 
+                };
+                await context.sendActivity(txt);
+                await context.sendActivity(Hint.goodbye);
+            }
+            else {
+                await this.dialog.run(context, this.conversationDialogAccessor);
+            }
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });

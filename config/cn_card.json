@@ -484,9 +484,10 @@
     ],
     "actions":[
       {
-        "type": "Action.OpenUrl",
-        "title": "点击打开文件链接",
-        "url": "${link}"
+        "type": "Action.Submit",
+        "title": "下载技术文档",
+        "data": {
+          "attachment":"${attachment}"}
       }
     ]
   }
