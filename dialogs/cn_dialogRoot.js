@@ -185,13 +185,19 @@ class CN_DialogRoot extends ComponentDialog {
                     retryPrompt: Hint.retryChoice,
                     choices: Menu.subMenu2
                 });
-            case 2: //3,价格查询
+            case 2: //3,计价查询
                 return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
                     prompt: Hint.promptSubMenu,
                     retryPrompt: Hint.retryChoice,
                     choices: Menu.subMenu3
                 });
-            case 3: //X,管理员入口
+            case 3: //4,进口部件查询
+                return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
+                    prompt: Hint.promptSubMenu,
+                    retryPrompt: Hint.retryChoice,
+                    choices: Menu.subMenu4
+                });
+            case 4: //X,管理员入口
                 return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
                     prompt: Hint.promptSubMenu,
                     retryPrompt: Hint.retryChoice,
@@ -251,11 +257,34 @@ class CN_DialogRoot extends ComponentDialog {
                         stepContext.values.idMenu = "Price01";
                         await this.countMenuEntry('Price01');
                         return await stepContext.beginDialog(CN_DIALOG_PRICE01);
-                    case 1://6.返回上一级菜单
+                    case 1:
+                        stepContext.values.idMenu = "Price02";
+                        await this.countMenuEntry('Price02');
+                        break;
+                    //Wait for System to be ready
+                    case 2://6.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
-            case 3://X,管理员入口
+            case 3://4，进口部件查询
+                switch (stepContext.values.subMenu) {
+                    case 0://马达进口件
+                        stepContext.values.idMenu = "Component01";
+                        await this.countMenuEntry('Component01');
+                        break;
+                    case 1://电气进口件
+                        stepContext.values.idMenu = "Component02";
+                        await this.countMenuEntry('Component02');
+                        break;
+                    case 2://机械进口件
+                        stepContext.values.idMenu = "Component03";
+                        await this.countMenuEntry('Component03');
+                        break;
+                    case 3://返回上一级菜单
+                        return await stepContext.replaceDialog(CN_DIALOG_ROOT);
+                }
+                break;
+            case 4://X,管理员入口
                 switch (stepContext.values.subMenu) {
                     case 0://1.数据库更新
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN01);
