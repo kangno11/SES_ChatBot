@@ -6,8 +6,8 @@
         "logout": {
             "type": "file",
             "filename": "./log/cnBotSES.log",
-            "maxLogSize": 10000000, 
-            "backups":5
+            "maxLogSize": 3000000, 
+            "backups":10
         }
     },
     "categories": {
