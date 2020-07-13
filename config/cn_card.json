@@ -272,48 +272,51 @@
         "weight": "bolder",
         "size": "large",
         "color": "Accent"
-      },{
-      "type": "Container",
+      },
+      {
+        "type": "Container",
         "$data": "${data}",
-        "items": [{
-          "type": "TextBlock",
-          "text": "CSC号：${csc_id}",
-          "weight": "bolder",
-          "isSubtle": false,
-          "spacing": "Large"
-        },
-        {
-          "type": "TextBlock",
-          "text": "NPS Version：${nps_version}",
-          "separator": true,
-          "wrap": true
-        },
-        {
-          "type": "TextBlock",
-          "text": "项目名称：${project_name}",
-          "wrap": true,
-          "spacing": "none"
-        },
-        {
-          "type": "TextBlock",
-          "text": "客服工程师：${kss_name}",
-          "spacing": "none"
-        },
-        {
-          "type": "TextBlock",
-          "text": "邮箱：${kss_engineer}",
-          "spacing": "none"
-        },
-        {
-          "type": "TextBlock",
-          "text": "项目接收时间：${fl_sending_date}",
-          "spacing": "none"
-        },
-        {
-          "type": "TextBlock",
-          "text": "预计完成时间：${kss_estimated_date}",
-          "spacing": "none"
-        }]
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "CSC号：${csc_id}",
+            "weight": "bolder",
+            "isSubtle": false,
+            "spacing": "Large"
+          },
+          {
+            "type": "TextBlock",
+            "text": "NPS Version：${nps_version}",
+            "separator": true,
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "项目名称：${project_name}",
+            "wrap": true,
+            "spacing": "none"
+          },
+          {
+            "type": "TextBlock",
+            "text": "客服工程师：${kss_name}",
+            "spacing": "none"
+          },
+          {
+            "type": "TextBlock",
+            "text": "邮箱：${kss_engineer}",
+            "spacing": "none"
+          },
+          {
+            "type": "TextBlock",
+            "text": "项目接收时间：${fl_sending_date}",
+            "spacing": "none"
+          },
+          {
+            "type": "TextBlock",
+            "text": "预计完成时间：${kss_estimated_date}",
+            "spacing": "none"
+          }
+        ]
       },
       {
         "type": "TextBlock",
@@ -396,7 +399,7 @@
         "type": "TextBlock",
         "text": "项目名称：${project_name}",
         "separator": true,
-        "wrap":true
+        "wrap": true
       },
       {
         "type": "TextBlock",
@@ -456,7 +459,7 @@
         "type": "TextBlock",
         "text": "文档名称：${document_name}",
         "separator": true,
-        "wrap":true
+        "wrap": true
       },
       {
         "type": "TextBlock",
@@ -482,14 +485,170 @@
         "spacing": "Medium"
       }
     ],
-    "actions":[
+    "actions": [
       {
         "type": "Action.Submit",
         "title": "下载技术文档",
         "data": {
-          "attachment":"${attachment}"}
+          "attachment": "${attachment}"
+        }
+      }
+    ]
+  },
+  "Component01_AdaptiveComponent": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "马达进口件清单",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "部件名称: ${component}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "Container",
+        "$data": "${details}",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "部件型号：${type}",
+            "separator": true,
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "供应商：${supplier}",
+            "spacing": "none",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "原产地：${origin}",
+            "spacing": "none",
+            "wrap": true
+          }
+        ]
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
+  },
+  "Component02_AdaptiveComponent": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "电气进口件清单",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "部件名称: ${component}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "Container",
+        "$data": "${details}",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "部件型号：${type}",
+            "separator": true,
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "供应商：${supplier}",
+            "spacing": "none",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "原产地：${origin}",
+            "spacing": "none",
+            "wrap": true
+          }
+        ]
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
+  },
+  "Component03_AdaptiveComponent": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "机械进口件清单",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "部件名称: ${component}",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large"
+      },
+      {
+        "type": "Container",
+        "$data": "${details}",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "部件型号：${type}",
+            "separator": true,
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "供应商：${supplier}",
+            "spacing": "none",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "原产地：${origin}",
+            "spacing": "none",
+            "wrap": true
+          }
+        ]
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
       }
     ]
   }
-  
 }

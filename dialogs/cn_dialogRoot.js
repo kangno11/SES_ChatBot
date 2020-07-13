@@ -29,6 +29,12 @@ const { CN_DialogProject03,
     CN_DIALOG_PROJECT03 } = require('./cn_dialogProject03');
 const { CN_DialogPrice01,
     CN_DIALOG_PRICE01 } = require('./cn_dialogPrice01');
+const { CN_DialogComponent01,
+    CN_DIALOG_COMPONENT01 } = require('./cn_dialogComponent01');
+const { CN_DialogComponent02,
+    CN_DIALOG_COMPONENT02 } = require('./cn_dialogComponent02');
+const { CN_DialogComponent03,
+    CN_DIALOG_COMPONENT03 } = require('./cn_dialogComponent03');
 const { CN_DialogAdmin01,
     CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_DialogAdmin02,
@@ -66,6 +72,9 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogProject02(this.logger));
         this.addDialog(new CN_DialogProject03(this.logger));
         this.addDialog(new CN_DialogPrice01(this.logger));
+        this.addDialog(new CN_DialogComponent01(this.logger));
+        this.addDialog(new CN_DialogComponent02(this.logger));
+        this.addDialog(new CN_DialogComponent03(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new CN_DialogAdmin03(this.logger));
@@ -271,15 +280,15 @@ class CN_DialogRoot extends ComponentDialog {
                     case 0://马达进口件
                         stepContext.values.idMenu = "Component01";
                         await this.countMenuEntry('Component01');
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT01);
                     case 1://电气进口件
                         stepContext.values.idMenu = "Component02";
                         await this.countMenuEntry('Component02');
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT02);
                     case 2://机械进口件
                         stepContext.values.idMenu = "Component03";
                         await this.countMenuEntry('Component03');
-                        break;
+                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT03);
                     case 3://返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }

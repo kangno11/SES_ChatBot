@@ -65,5 +65,14 @@
     "Price01_SelectDocument":"请选择想要查询的Open Offer。",
     "Price01_promptQuestion":"请输入有问题的Open Offer并简要描述问题，管理员会尽快处理。",
     "Price01_retryQuestion":"请输入Open Offer（至少后三位），不少于3个字符！请再次输入...",
+    "Component01_SelectComponent":"请选择马达部件名称。",
+    "Component01_promptQuestion":"请描述您想查询的信息，管理员会尽快处理。",
+    "Component01_retryQuestion":"请描述不少于5个字符！请再次输入...",
+    "Component02_SelectComponent":"请选择电气部件名称。",
+    "Component02_promptQuestion":"请描述您想查询的信息，管理员会尽快处理。",
+    "Component02_retryQuestion":"请描述不少于5个字符！请再次输入...",
+    "Component03_SelectComponent":"请选择机械部件名称。",
+    "Component03_promptQuestion":"请描述您想查询的信息，管理员会尽快处理。",
+    "Component03_retryQuestion":"请描述不少于5个字符！请再次输入...",
     "other":"other"
 }
