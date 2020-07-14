@@ -308,12 +308,12 @@
           },
           {
             "type": "TextBlock",
-            "text": "项目接收时间：${fl_sending_date}",
+            "text": "供应线项目接收时间：${fl_sending_date}",
             "spacing": "none"
           },
           {
             "type": "TextBlock",
-            "text": "预计完成时间：${kss_estimated_date}",
+            "text": "供应线预计完成时间：${kss_estimated_date}",
             "spacing": "none"
           }
         ]
@@ -359,7 +359,7 @@
       },
       {
         "type": "TextBlock",
-        "text": "项目接收时间：${fl_sending_date}",
+        "text": "供应线项目接收时间：${fl_sending_date}",
         "spacing": "none"
       },
       {
@@ -414,12 +414,12 @@
       },
       {
         "type": "TextBlock",
-        "text": "项目接收时间：${fl_sending_date}",
+        "text": "供应线项目接收时间：${fl_sending_date}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "预计完成时间:${estimated_finish_date}",
+        "text": "供应线预计完成时间:${estimated_finish_date}",
         "spacing": "none"
       },
       {
@@ -488,9 +488,9 @@
     "actions": [
       {
         "type": "Action.Submit",
-        "title": "下载技术文档",
+        "title": "需要变更为技术文档链接按钮",
         "data": {
-          "attachment": "${attachment}"
+          "attachment": "${attachment}"       
         }
       }
     ]
