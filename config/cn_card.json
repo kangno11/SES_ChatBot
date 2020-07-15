@@ -487,11 +487,9 @@
     ],
     "actions": [
       {
-        "type": "Action.Submit",
-        "title": "需要变更为技术文档链接按钮",
-        "data": {
-          "attachment": "${attachment}"       
-        }
+        "type": "Action.OpenUrl",
+        "title": "点击下载技术文档",
+        "url": "${link}"
       }
     ]
   },

@@ -301,9 +301,9 @@ class CN_DialogRoot extends ComponentDialog {
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN02);
                     case 2://3.用户满意度统计下载
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN03);
-                    case 3://4.技术文档上传
-                        return await stepContext.beginDialog(CN_DIALOG_ADMIN04);
-                    case 4://5.返回上一级菜单
+                    //case 3://4.技术文档上传
+                        //return await stepContext.beginDialog(CN_DIALOG_ADMIN04);
+                    case 3://4.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
