@@ -69,6 +69,12 @@
         "csv":"cnDB_Componert03_Mech.csv",
         "db":"cnDB_Component03.json",
         "id":"Component03"
+    },
+    "Technical01":
+    {
+        "csv":"cnDB_Technical01_Technical.csv",
+        "db":"cnDB_Technical01.json",
+        "id":"Technical01"
     }
 
 }

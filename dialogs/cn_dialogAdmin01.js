@@ -184,6 +184,14 @@ class CN_DialogAdmin01 extends ComponentDialog {
                                 );
                             }
                             break;
+                        case 'Technical01':
+                            db = _.concat(db, {
+                                id: line[0],
+                                hint: line[1]
+                            }
+                            );
+                            break;
+
                     }
 
                 }))

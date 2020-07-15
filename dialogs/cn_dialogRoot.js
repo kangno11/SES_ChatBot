@@ -35,6 +35,8 @@ const { CN_DialogComponent02,
     CN_DIALOG_COMPONENT02 } = require('./cn_dialogComponent02');
 const { CN_DialogComponent03,
     CN_DIALOG_COMPONENT03 } = require('./cn_dialogComponent03');
+const { CN_DialogTechnical01,
+    CN_DIALOG_TECHNICAL01 } = require('./cn_dialogTechnical01');
 const { CN_DialogAdmin01,
     CN_DIALOG_ADMIN01 } = require('./cn_dialogAdmin01');
 const { CN_DialogAdmin02,
@@ -75,6 +77,7 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogComponent01(this.logger));
         this.addDialog(new CN_DialogComponent02(this.logger));
         this.addDialog(new CN_DialogComponent03(this.logger));
+        this.addDialog(new CN_DialogTechnical01(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new CN_DialogAdmin03(this.logger));
@@ -206,7 +209,13 @@ class CN_DialogRoot extends ComponentDialog {
                     retryPrompt: Hint.retryChoice,
                     choices: Menu.subMenu4
                 });
-            case 4: //X,管理员入口
+            case 4: //5，技术咨询
+                return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
+                    prompt: Hint.promptSubMenu,
+                    retryPrompt: Hint.retryChoice,
+                    choices: Menu.subMenu5
+                });
+            case 5: //X,管理员入口
                 return await stepContext.prompt(PROMPT_CHOICE_SUBMENU, {
                     prompt: Hint.promptSubMenu,
                     retryPrompt: Hint.retryChoice,
@@ -293,7 +302,18 @@ class CN_DialogRoot extends ComponentDialog {
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;
-            case 4://X,管理员入口
+            case 4://5，技术咨询
+                switch (stepContext.values.subMenu) {
+                    case 0://咨询接口
+                        stepContext.values.idMenu = "Technical01";
+                        await this.countMenuEntry('Technical01');
+                        return await stepContext.beginDialog(CN_DIALOG_TECHNICAL01);
+                        break;
+                    case 1://返回上一级菜单
+                        return await stepContext.replaceDialog(CN_DIALOG_ROOT);
+                }
+                break;
+            case 5://X,管理员入口
                 switch (stepContext.values.subMenu) {
                     case 0://1.数据库更新
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN01);
@@ -302,7 +322,7 @@ class CN_DialogRoot extends ComponentDialog {
                     case 2://3.用户满意度统计下载
                         return await stepContext.beginDialog(CN_DIALOG_ADMIN03);
                     //case 3://4.技术文档上传
-                        //return await stepContext.beginDialog(CN_DIALOG_ADMIN04);
+                    //return await stepContext.beginDialog(CN_DIALOG_ADMIN04);
                     case 3://4.返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }

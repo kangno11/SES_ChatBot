@@ -663,5 +663,46 @@
         "color":"warning"
       }
     ]
+  },
+  "Technical01_AdaptiveHint": {
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+      {
+        "type": "TextBlock",
+        "text": "咨询接口",
+        "weight": "bolder",
+        "size": "large",
+        "color": "Accent"
+      },
+      {
+        "type": "TextBlock",
+        "text": "SES技术咨询方式",
+        "weight": "bolder",
+        "isSubtle": false,
+        "spacing": "Large",
+        "separator": true
+      },
+      {
+        "type": "Container",
+        "$data": "${list}",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "${id}, ${hint}",
+            "separator": true,
+            "wrap": true
+          }
+        ]
+      },
+      {
+        "type": "TextBlock",
+        "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
+        "separator": true,
+        "size": "small",
+        "spacing": "Medium"
+      }
+    ]
   }
 }

@@ -74,5 +74,7 @@
     "Component03_SelectComponent":"请选择机械部件名称。",
     "Component03_promptQuestion":"请描述您想查询的信息，管理员会尽快处理。",
     "Component03_retryQuestion":"请描述不少于5个字符！请再次输入...",
+    "Technical01_promptQuestion":"请描述您想查询的信息，管理员会尽快处理。",
+    "Technical01_retryQuestion":"请描述不少于5个字符！请再次输入...",
     "other":"other"
 }
