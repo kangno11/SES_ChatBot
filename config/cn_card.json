@@ -542,6 +542,11 @@
         "separator": true,
         "size": "small",
         "spacing": "Medium"
+      },
+      {
+        "type":"TextBlock",
+        "text":"供应商具有时效性，机器人提供的清单仅供参考!",
+        "color":"warning"
       }
     ]
   },
@@ -594,6 +599,11 @@
         "separator": true,
         "size": "small",
         "spacing": "Medium"
+      },
+      {
+        "type":"TextBlock",
+        "text":"供应商具有时效性，机器人提供的清单仅供参考!",
+        "color":"warning"
       }
     ]
   },
@@ -646,6 +656,11 @@
         "separator": true,
         "size": "small",
         "spacing": "Medium"
+      },
+      {
+        "type":"TextBlock",
+        "text":"供应商具有时效性，机器人提供的清单仅供参考!",
+        "color":"warning"
       }
     ]
   }
