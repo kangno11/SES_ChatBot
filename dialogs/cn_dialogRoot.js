@@ -31,10 +31,10 @@ const { CN_DialogPrice01,
     CN_DIALOG_PRICE01 } = require('./cn_dialogPrice01');
 const { CN_DialogComponent01,
     CN_DIALOG_COMPONENT01 } = require('./cn_dialogComponent01');
-const { CN_DialogComponent02,
-    CN_DIALOG_COMPONENT02 } = require('./cn_dialogComponent02');
-const { CN_DialogComponent03,
-    CN_DIALOG_COMPONENT03 } = require('./cn_dialogComponent03');
+//const { CN_DialogComponent02,
+//    CN_DIALOG_COMPONENT02 } = require('./cn_dialogComponent02');
+//const { CN_DialogComponent03,
+//    CN_DIALOG_COMPONENT03 } = require('./cn_dialogComponent03');
 const { CN_DialogTechnical01,
     CN_DIALOG_TECHNICAL01 } = require('./cn_dialogTechnical01');
 const { CN_DialogAdmin01,
@@ -43,8 +43,8 @@ const { CN_DialogAdmin02,
     CN_DIALOG_ADMIN02 } = require('./cn_dialogAdmin02');
 const { CN_DialogAdmin03,
     CN_DIALOG_ADMIN03 } = require('./cn_dialogAdmin03');
-const { CN_DialogAdmin04,
-    CN_DIALOG_ADMIN04 } = require('./cn_dialogAdmin04');
+//const { CN_DialogAdmin04,
+//    CN_DIALOG_ADMIN04 } = require('./cn_dialogAdmin04');
 const { CN_UserProfile } = require('../class/cn_userProfile');
 const Hint = require('../config/cn_hint.json');
 const Menu = require('../config/cn_menu.json');
@@ -75,13 +75,13 @@ class CN_DialogRoot extends ComponentDialog {
         this.addDialog(new CN_DialogProject03(this.logger));
         this.addDialog(new CN_DialogPrice01(this.logger));
         this.addDialog(new CN_DialogComponent01(this.logger));
-        this.addDialog(new CN_DialogComponent02(this.logger));
-        this.addDialog(new CN_DialogComponent03(this.logger));
+        //this.addDialog(new CN_DialogComponent02(this.logger));
+        //this.addDialog(new CN_DialogComponent03(this.logger));
         this.addDialog(new CN_DialogTechnical01(this.logger));
         this.addDialog(new CN_DialogAdmin01(this.logger));
         this.addDialog(new CN_DialogAdmin02(this.logger));
         this.addDialog(new CN_DialogAdmin03(this.logger));
-        this.addDialog(new CN_DialogAdmin04(this.logger));
+        //this.addDialog(new CN_DialogAdmin04(this.logger));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
             //this.languageStep.bind(this),
             this.mainMenuStep.bind(this),
@@ -290,15 +290,15 @@ class CN_DialogRoot extends ComponentDialog {
                         stepContext.values.idMenu = "Component01";
                         await this.countMenuEntry('Component01');
                         return await stepContext.beginDialog(CN_DIALOG_COMPONENT01);
-                    case 1://电气进口件
-                        stepContext.values.idMenu = "Component02";
-                        await this.countMenuEntry('Component02');
-                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT02);
-                    case 2://机械进口件
-                        stepContext.values.idMenu = "Component03";
-                        await this.countMenuEntry('Component03');
-                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT03);
-                    case 3://返回上一级菜单
+//                    case 1://电气进口件
+//                        stepContext.values.idMenu = "Component02";
+//                        await this.countMenuEntry('Component02');
+//                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT02);
+//                    case 2://机械进口件
+//                        stepContext.values.idMenu = "Component03";
+//                        await this.countMenuEntry('Component03');
+//                        return await stepContext.beginDialog(CN_DIALOG_COMPONENT03);
+                    case 1://返回上一级菜单
                         return await stepContext.replaceDialog(CN_DIALOG_ROOT);
                 }
                 break;

@@ -54,21 +54,9 @@
     },
     "Component01":
     {
-        "csv":"cnDB_Componert01_MX.csv",
+        "csv":"cnDB_Component01_Origin.csv",
         "db":"cnDB_Component01.json",
         "id":"Component01"
-    },
-    "Component02":
-    {
-        "csv":"cnDB_Componert02_Elec.csv",
-        "db":"cnDB_Component02.json",
-        "id":"Component02"
-    },
-    "Component03":
-    {
-        "csv":"cnDB_Componert03_Mech.csv",
-        "db":"cnDB_Component03.json",
-        "id":"Component03"
     },
     "Technical01":
     {

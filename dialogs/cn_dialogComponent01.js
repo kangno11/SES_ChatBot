@@ -24,8 +24,6 @@ var ACData = require("adaptivecards-templating");
 
 const CN_DIALOG_COMPONENT01 = 'CN_DIALOG_COMPONENT01';//Tender&VO业务客服联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
-const PROMPT_CHOICE_COMPONENT = 'PROMPT_CHOICE_COMPONENT';
-const PROMPT_CHOICE_QUERYAGAIN = "PROMPT_CHOICE_QUERYAGAIN";
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
 const PROMPT_TEXT_QUESTION = 'PROMPT_TEXT_QUESTION';
 
@@ -34,15 +32,10 @@ class CN_DialogComponent01 extends ComponentDialog {
         super(CN_DIALOG_COMPONENT01);
         this.logger = logger;
 
-        //this.addDialog(new NumberPrompt(NUMBER_PROMPT));
-        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_COMPONENT, this.componentPromptValidator));
-        this.addDialog(new ChoicePrompt(PROMPT_CHOICE_QUERYAGAIN));
         this.addDialog(new ChoicePrompt(PROMPT_CHOICE_FEEDBACK));
         this.addDialog(new TextPrompt(PROMPT_TEXT_QUESTION, this.questionPromptValidator));
         this.addDialog(new WaterfallDialog(DIALOG_WATERFALL, [
-            this.queryDatabaseStep.bind(this),
             this.queryDisplayStep.bind(this),
-            this.queryAgainStep.bind(this),
             this.queryConfirmationStep.bind(this),
             this.queryRecordStep.bind(this)
         ]));
@@ -50,47 +43,30 @@ class CN_DialogComponent01 extends ComponentDialog {
         this.initialDialogId = DIALOG_WATERFALL;
     }
 
-
-    async queryDatabaseStep(stepContext) {
+    async queryDisplayStep(stepContext) {
         var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Component01.db));
         var lowdb = low(adapter);
-        return await stepContext.prompt(PROMPT_CHOICE_COMPONENT, {
-            prompt: Hint.Component01_SelectComponent,
-            retryPrompt: Hint.retryChoice,
-            choices: lowdb.get('db').map('component').value()
-        });
-
-    }
-    async queryDisplayStep(stepContext) {
-        var d = stepContext.result;
-        var template = new ACData.Template(Card.Component01_AdaptiveComponent);
+        var d = {
+            "link":lowdb.get('db').value()[0].link,
+            "lastrefreshdate":lowdb.get("lastRefresh.date").value(),
+            "lastrefreshtime":lowdb.get("lastRefresh.time").value()
+        };
+        var template = new ACData.Template(Card.Component01_AdaptiveOrigin);
         var card = template.expand({ $root: d });
+
         await stepContext.context.sendActivity(
             {
                 attachments: [CardFactory.adaptiveCard(card)]
             });
-        return await stepContext.prompt(PROMPT_CHOICE_QUERYAGAIN,
+        return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
             {
-                prompt: Hint.promptQueryAgain,
-                choices: Menu.queryAgainMenu
+                prompt: Hint.promptFeedback,
+                choices: Menu.feedbackMenu
             }
         );
     }
-    async queryAgainStep(stepContext) {
-        switch (stepContext.result.index) {
-            case 0:
-                return await stepContext.replaceDialog(this.initialDialogId);
-            case 1:
-                return await stepContext.prompt(PROMPT_CHOICE_FEEDBACK,
-                    {
-                        prompt: Hint.promptFeedback,
-                        choices: Menu.feedbackMenu
-                    }
-                );
-        }
-    }
+   
     async queryConfirmationStep(stepContext) {
-        //console.log(stepContext.result);
         if (stepContext.result.index === 0) {
             return await stepContext.endDialog({ index: 0 })
         }
@@ -109,21 +85,7 @@ class CN_DialogComponent01 extends ComponentDialog {
 
 
 
-    async componentPromptValidator(promptContext) {
-        if (promptContext.recognized.succeeded) {
-            var c = promptContext.recognized.value.value;
-            var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Component01.db));
-            var lowdb = low(adapter);
-            var d = lowdb.get('db').filter({ component: c }).value();
-            if (d.length>0) {
-                promptContext.recognized.value = {"details":d[0].details};
-                promptContext.recognized.value.component = c;
-                promptContext.recognized.value.lastrefreshdate = lowdb.get("lastRefresh.date").value();
-                promptContext.recognized.value.lastrefreshtime = lowdb.get("lastRefresh.time").value();
-                return true;
-            }
-        }
-    }
+   
     async questionPromptValidator(promptContext) {
         if (promptContext.recognized.succeeded) {
             var k = promptContext.recognized.value;
@@ -141,7 +103,7 @@ class CN_DialogComponent01 extends ComponentDialog {
                     "time": d.toLocaleTimeString(),
                     "question": k,
                     "id": "Component01",
-                    "desc": "马达进口件清单"
+                    "desc": "进口件产地清单"
                 };
                 lowdb.get('questions')
                     .push(question)

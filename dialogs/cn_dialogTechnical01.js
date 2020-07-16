@@ -27,7 +27,6 @@ const CN_DIALOG_TECHNICAL01 = 'CN_DIALOG_TECHNICAL01';//特殊流程联系人
 const DIALOG_WATERFALL = 'DIALOG_WATERFALL';
 const PROMPT_TEXT_QUESTION = 'PROMPT_TEXT_QUESTION';
 const PROMPT_CHOICE_FEEDBACK = "PROMPT_CHOICE_FEEDBACK";
-//const NUMBER_PROMPT = 'NUMBER_PROMPT';
 
 class CN_DialogTechnical01 extends ComponentDialog {
     constructor(logger) {

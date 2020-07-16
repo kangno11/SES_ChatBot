@@ -158,31 +158,13 @@ class CN_DialogAdmin01 extends ComponentDialog {
                             }
                             );
                             break;
-                        case 'Component01': //马达进口件
-                        case 'Component02': //电气进口件
-                        case 'Component03': //机械进口件
-                            var componentindex = _.findIndex(db, { component: line[0] });
-                            if (componentindex === -1) {
-                                db = _.concat(db, {
-                                    component: line[0],
-                                    details: [
-                                        {
-                                            type: line[1],
-                                            supplier: line[2],
-                                            origin: line[3]
-                                        }
-                                    ]
-                                });
-                            }
-                            else {
-                                db[componentindex].details = _.concat(db[componentindex].details,
-                                    {
-                                        type: line[1],
-                                        supplier: line[2],
-                                        origin: line[3]
-                                    }
-                                );
-                            }
+                        case 'Component01': //进口件产地
+                            db = _.concat(db, {
+                                id: line[0],
+                                name: line[1],
+                                link: line[2]
+                            });
+
                             break;
                         case 'Technical01':
                             db = _.concat(db, {
