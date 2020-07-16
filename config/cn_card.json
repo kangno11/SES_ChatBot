@@ -479,6 +479,11 @@
       },
       {
         "type": "TextBlock",
+        "text": "提示：如果无权限访问，请找对应区域销售支持帮忙查看",
+        "color": "warning"
+      },
+      {
+        "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
         "size": "small",
@@ -507,15 +512,15 @@
       },
       {
         "type": "TextBlock",
+        "text": "提示：如果无权限访问，请找对应区域销售支持帮忙查看",
+        "color": "warning"
+      }
+      {
+        "type": "TextBlock",
         "text": "数据库最近一次更新日期：${lastrefreshdate} ${lastrefreshtime}",
         "separator": true,
         "size": "small",
         "spacing": "Medium"
-      },
-      {
-        "type": "TextBlock",
-        "text": "提示：如果无权限访问，请找对应区域销售支持帮忙查看",
-        "color": "warning"
       }
     ],
     "actions":[
