@@ -55,7 +55,7 @@ class CN_DialogPrice01 extends ComponentDialog {
         return await stepContext.prompt(PROMPT_CHOICE_DOCUMENT, {
             prompt: Hint.Price01_SelectDocument,
             retryPrompt: Hint.retryChoice,
-            choices: lowdb.get('db').map('document_number').value()
+            choices: lowdb.get('db').map('choice_name').value()
         });
     }
 
@@ -112,7 +112,7 @@ class CN_DialogPrice01 extends ComponentDialog {
             var k = promptContext.recognized.value.value;
             var adapter = new FileSync(path.resolve(__dirname, "../db/" + Database.Price01.db));
             var lowdb = low(adapter);
-            var d = lowdb.get('db').find({ document_number: k }).value();
+            var d = lowdb.get('db').value()[promptContext.recognized.value.index];
             if (d) {
                 promptContext.recognized.value = d;
                 promptContext.recognized.value.lastrefreshdate = lowdb.get("lastRefresh.date").value();

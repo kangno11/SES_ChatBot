@@ -154,7 +154,8 @@ class CN_DialogAdmin01 extends ComponentDialog {
                                 document_number: line[3],
                                 release_date: line[4],
                                 dl_version: line[5],
-                                link: line[6]
+                                link: line[6],
+                                choice_name: line[3]+'-'+line[1]
                             }
                             );
                             break;
